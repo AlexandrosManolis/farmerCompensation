@@ -1,0 +1,25 @@
+<userDetails xmlns:sec="http://www.w3.org/1999/xhtml">
+
+  <head>
+    <title>User Details</title>
+  </head>
+  <body>
+
+  <h2>User Details</h2>
+
+  <table>
+
+    <div>
+      <p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+      <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+      <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+      <p><strong>Address:</strong> <span th:text="${user.address}"></span></p>
+      <p><strong>AFM:</strong> <span th:text="${user.afm}"></span></p>
+      <p><strong>Full Name:</strong> <span th:text="${user.full_name}"></span></p>
+      <p><strong>Identity ID:</strong> <span th:text="${user.identity_id}"></span></p>
+
+    </div>
+  </table>
+
+  </body>
+</userDetails>
