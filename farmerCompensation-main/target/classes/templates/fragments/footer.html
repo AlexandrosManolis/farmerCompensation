@@ -1,0 +1,16 @@
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+<footer>
+    <div class="container">
+        <div sec:authorize="isAuthenticated()">
+            Authenticated username:
+            <span sec:authentication="name"></span>
+            Authenticated user roles:
+            <span sec:authentication="principal.authorities"></span>
+        </div>
+        <hr/>
+    <p>&copy; 2023 My Awesome Website. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

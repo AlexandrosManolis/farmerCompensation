@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/header :: header"></head>
+
+<body>
+<!-- Include the header fragment -->
+<div th:insert="fragments/menu :: menu"></div>
+<main>
+    <div class="container" >
+        <form action="#" th:action="@{/users/edit/{id}(id=${user.id})}" th:object="${user}"
+              method="post">
+
+            <div class="form-group">
+                <input type="hidden" id="id" class="form-control" th:field="*{id}">
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" class="form-control" th:field="*{username}">
+
+                <label for="email">Email</label>
+                <input type="text" id="email" class="form-control" th:field="*{email}">
+
+                <label for="address">Address</label>
+                <input type="text" id="address" class="form-control" th:field="*{address}">
+
+                <label for="afm">AFM</label>
+                <input type="text" id="afm" class="form-control" th:field="*{afm}">
+
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" class="form-control" th:field="*{full_name}">
+
+                <label for="identity_id">Identity ID</label>
+                <input type="text" id="identity_id" class="form-control" th:field="*{identity_id}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</main>
+
+<!-- Include the footer fragment -->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
