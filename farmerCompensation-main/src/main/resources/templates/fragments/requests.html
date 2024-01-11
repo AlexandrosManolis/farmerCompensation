@@ -1,0 +1,42 @@
+<requests xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:if="${ not#lists.isEmpty(requestForRoles)}">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <span th:each="user : ${usersWithRoleRequests}">
+
+                <tr th:each="request : ${requestForRoles}" th:if="${request.user.id == user.id}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+
+                <td th:if="${user.id}">
+                    <a class="btn btn-info" th:href="@{/users/details/{id}(id=${user.id})}">Details</a>
+                    <a class="btn btn-success" th:href="@{/users/requests/{user_id}/accept(user_id=${user.id})}">Approve</a>
+                    <a class="btn btn-danger" th:href="@{users/requests/{user_id}/reject(user_id=${user.id})}">Reject</a>
+                    <a>Status:</a>
+                    <button type="button" th:text="${request.role_status}" disabled></button>
+                    <a>User wants to become: </a>
+                    <button th:text="${request.role != null ? request.role.name : 'N/A'}" disabled></button>
+                </td>
+
+                    </tr>
+
+        </span>
+        </tbody>
+    </table>
+
+    </div>
+    <div th:if="${ #lists.isEmpty(requestForRoles)}">
+        No Request found!
+    </div>
+</requests>

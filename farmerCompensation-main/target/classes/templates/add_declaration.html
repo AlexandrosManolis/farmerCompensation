@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/header :: header"></head>
+
+<body>
+<!-- Include the header fragment -->
+<div th:insert="fragments/menu :: menu"></div>
+<main>
+  <div class="container">
+
+    <form action="#" th:action="@{/declaration/{id}(id=${user_id})}" th:object="${form}"
+          method="post">
+      <div class="form-group">
+        <input type="hidden" id="id" class="form-control" th:field="*{id}">
+      </div>
+
+      <div class="form-group">
+
+        <label for="annualStartProduction">Annual start production</label>
+        <input type="text" id="annualStartProduction" class="form-control" th:field="*{annualStartProduction}">
+
+        <label for="damageDate">Damage Date</label>
+        <input type="text" id="damageDate" class="form-control" th:field="*{damageDate}">
+
+        <label for="description">Descripption</label>
+        <input type="text" id="description" class="form-control" th:field="*{description}">
+
+        <label for="fieldAddress">Field Address</label>
+        <input type="text" id="fieldAddress" class="form-control" th:field="*{fieldAddress}">
+
+        <label for="fieldSize">Field Size</label>
+        <input type="text" id="fieldSize" class="form-control" th:field="*{fieldSize}">
+
+        <label for="plant_production">Plant Production</label>
+        <input type="text" id="plant_production" class="form-control" th:field="*{plant_production}">
+
+        <label for="submissionDate">Submission Date</label>
+        <input type="text" id="submissionDate" name="submissionDate" th:field="*{submissionDate}" readonly/>
+
+        <label for="status">Status</label>
+        <input type="text" id="status" name="status" th:field="*{status}" readonly/>
+
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+  <script>
+
+    var today = new Date();
+    var yyyy = today.getFullYear();
+    var mm = today.getMonth() + 1;
+    var dd = today.getDate();
+
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    var formattedDate = dd + '/' + mm + '/' + yyyy ;
+
+    // Set the input element value to the formatted date
+
+    document.getElementById('submissionDate').value = formattedDate;
+
+  </script>
+</main>
+
+<!-- Include the footer fragment -->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
