@@ -49,13 +49,14 @@
                         <span  sec:authorize="hasRole('FARMER') and not hasRole('INSPECTOR')" th:if="${role.name == 'ROLE_INSPECTOR'}">
                             <form action="#" th:action="@{/users/role/add/{id}/{role_id}(id=${user.id}, role_id=${role.id})}" method="post">
                                  <input type="hidden" name="role_id" th:value="${role.id}" />
-                                <button type="submit" class="btn btn-success" role="button" th:utext="'Request for ' + ${role.name}"></button>
+                                <button id="requestButton" type="submit" th:unless="${requestForRoleService.isUserPending(user.id)}" class="btn btn-success" role="button" th:utext="'Request for ' + ${role.name}"></button>
                             </form>
 
                         </span>
                     </span>
                 </td>
             </tr>
+
             </span>
 
             </tbody>
@@ -64,6 +65,7 @@
     <div th:if="${ #lists.isEmpty(users)}" >
         No Users found!
     </div>
+
     <a href="/register" sec:authorize="hasRole('ADMIN')" class="btn btn-primary" role="button">Create new User</a>
 
     <a class="btn btn-primary" role="button" sec:authorize="hasRole('ADMIN')" th:href="@{/users/requests}">User Requests</a>

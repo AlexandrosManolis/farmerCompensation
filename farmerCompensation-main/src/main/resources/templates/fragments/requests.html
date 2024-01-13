@@ -21,10 +21,18 @@
 
                 <td th:if="${user.id}">
                     <a class="btn btn-info" th:href="@{/users/details/{id}(id=${user.id})}">Details</a>
-                    <a class="btn btn-success" th:href="@{/users/requests/{user_id}/accept(user_id=${user.id})}">Approve</a>
-                    <a class="btn btn-danger" th:href="@{users/requests/{user_id}/reject(user_id=${user.id})}">Reject</a>
+
+                    <form action="#" th:action="@{'/users/requests/accept/' + ${user.id} +'/'+ ${request.id}}" method="post">
+                            <button type="submit" class="btn btn-success" role="button" th:unless="${request.status} == 'Rejected' or ${request.status} == 'Approved'">Approve</button>
+                    </form>
+
+                    <form action="#" th:action="@{'/users/requests/reject/' + ${user.id} +'/'+ ${request.id}}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-danger" role="button" th:unless="${request.status} == 'Rejected' or ${request.status} == 'Approved'">Reject</button>
+                    </form>
+
                     <a>Status:</a>
-                    <button type="button" th:text="${request.role_status}" disabled></button>
+                    <button type="button" th:text="${request.status}" disabled></button>
                     <a>User wants to become: </a>
                     <button th:text="${request.role != null ? request.role.name : 'N/A'}" disabled></button>
                 </td>
