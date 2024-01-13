@@ -8,6 +8,7 @@ import gr.hua.dit.farmerCompensation.entity.User;
 import gr.hua.dit.farmerCompensation.repository.RoleRepository;
 import gr.hua.dit.farmerCompensation.repository.UserRepository;
 import gr.hua.dit.farmerCompensation.service.DeclarationService;
+import gr.hua.dit.farmerCompensation.service.RequestForRoleService;
 import gr.hua.dit.farmerCompensation.service.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RequestForRoleService requestForRoleService;
 
     @PostConstruct
     public void setup() {
@@ -110,6 +114,8 @@ public class AuthController {
 
     @GetMapping("/users")
     public String showUsers(Model model){
+
+        model.addAttribute("requestForRoleService", requestForRoleService);
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("roles", roleRepository.findAll());
         return "users";

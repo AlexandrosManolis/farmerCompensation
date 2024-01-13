@@ -1,9 +1,12 @@
 package gr.hua.dit.farmerCompensation.service;
 
 import gr.hua.dit.farmerCompensation.dao.UserDAO;
+import gr.hua.dit.farmerCompensation.entity.RequestForRole;
 import gr.hua.dit.farmerCompensation.entity.Role;
 import gr.hua.dit.farmerCompensation.repository.RoleRepository;
 import gr.hua.dit.farmerCompensation.repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Transactional
     public Integer saveUser(User user) {
@@ -92,5 +98,6 @@ public class UserService implements UserDetailsService {
     public User getUserProfile(Integer user_id) {
         return userDAO.getUserProfile(user_id);
     }
+
 
 }
