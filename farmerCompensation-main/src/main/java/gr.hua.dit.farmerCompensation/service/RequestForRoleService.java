@@ -1,7 +1,6 @@
 package gr.hua.dit.farmerCompensation.service;
 
 import gr.hua.dit.farmerCompensation.dao.UserDAO;
-import gr.hua.dit.farmerCompensation.entity.DeclarationForm;
 import gr.hua.dit.farmerCompensation.entity.RequestForRole;
 import gr.hua.dit.farmerCompensation.entity.User;
 import gr.hua.dit.farmerCompensation.repository.RequestForRoleRepository;
@@ -12,10 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class RequestForRoleService {

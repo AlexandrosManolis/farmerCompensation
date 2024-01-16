@@ -1,30 +1,24 @@
 package gr.hua.dit.farmerCompensation.service;
 
 import gr.hua.dit.farmerCompensation.dao.UserDAO;
-import gr.hua.dit.farmerCompensation.entity.RequestForRole;
 import gr.hua.dit.farmerCompensation.entity.Role;
+import gr.hua.dit.farmerCompensation.entity.User;
 import gr.hua.dit.farmerCompensation.repository.RoleRepository;
 import gr.hua.dit.farmerCompensation.repository.UserRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
-import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import gr.hua.dit.farmerCompensation.entity.User;
-import org.springframework.ui.Model;
 
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -67,36 +61,43 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> opt = userRepository.findByUsername(username);
+         User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
-        if (opt.isEmpty())
-            throw new UsernameNotFoundException("User with email: " + username + " not found !");
-        else {
-            User user = opt.get();
-            return new org.springframework.security.core.userdetails.User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    user.getRoles()
-                            .stream()
-                            .map(role-> new SimpleGrantedAuthority(role.toString()))
-                            .collect(Collectors.toSet())
-            );
-        }
+        return UserDetailsImpl.build(user);
     }
 
     @Transactional
-    public Object getUsers() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    public Object getUser(Long userId) {
+    public Object getUser(Integer userId) {
         return userRepository.findById(userId).get();
     }
 
 
     public User getUserProfile(Integer user_id) {
         return userDAO.getUserProfile(user_id);
+    }
+
+    public String getUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getAuthorities() != null) {
+            if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"))) {
+                return "ROLE_ADMIN";
+            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_INSPECTOR"))) {
+                return "ROLE_INSPECTOR";
+            } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_FARMER"))) {
+                return "ROLE_FARMER";
+            }
+        }
+
+        // Default role if no matching role is found
+        return "ROLE_USER";
     }
 
 

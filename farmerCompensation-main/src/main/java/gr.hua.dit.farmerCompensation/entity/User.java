@@ -1,8 +1,10 @@
 package gr.hua.dit.farmerCompensation.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +17,7 @@ import java.util.Set;
             @UniqueConstraint(columnNames = "email")
         }
 )
+@JsonIgnoreProperties({"declarations", "requestForRoles"})
 public class User {
 
     @Id
@@ -95,9 +98,11 @@ public class User {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getEmail() {
         return email;
     }

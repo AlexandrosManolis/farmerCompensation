@@ -1,7 +1,6 @@
 package gr.hua.dit.farmerCompensation.dao;
 
 import gr.hua.dit.farmerCompensation.entity.DeclarationForm;
-import gr.hua.dit.farmerCompensation.entity.User;
 
 import java.util.List;
 
