@@ -1,0 +1,27 @@
+Στην αρχή τρέχουμε την εντολή στον docker run --name ds-lab-pg --rm \
+-e POSTGRES_PASSWORD=pass123 \
+-e POSTGRES_USER=postgres \
+-e POSTGRES_DB=farmers \
+-d -p --net=host \
+-v ds-lab-vol:/var/lib/postgresql/data \
+postgres:14
+
+Στην βάση συνδέεται με την postgres 
+στο πεδίο User: Βάζουμε postgres
+στο πεδίο Password: βάζουμε pass123
+στο πεδίο Database: βάζουμε farmers 
+στην συνέχεια πατάμε apply και οκ
+
+Στο postman όλα τα post και get request υπάρχουν σε αυτό το link: https://team16-ds-2023.postman.co/workspace/team16_ds_2023-Workspace~3cd744a2-c049-4360-bd8f-9ca1f2d04773/collection/32323426-a2872f8c-0bbc-484a-b9df-fe3a42d70434?action=share&creator=32323426&active-environment=32323426-99e68ea4-e233-411d-a520-3c68b62279f4
+
+Αφού τρέξουμε το πρόγραμμα μέσα από το Intelij μπορούμε να κάνουμε register για νέο χρήστη και
+στην συνέχεια login. Αν ο χρήστης υπάρχει ήδη κάνει κατευθείαν login.
+
+Για signup θα χρειαστείτε email, username, password, full_name, address, afm, identity_id(αποτελείται από 2 γράμματα και 6 αριθμούς)
+Για login email, password
+
+Ο user έχει default role Farmer, και μπορεί να δει τα στοιχεία του, να τα κάνει edit, να κάνει αίτηση στον admin για να πάρει ρόλο, να κάνει αίτηση αποζημίωσης, και να την επεξεργαστεί ή να την σβήσει. 
+
+Ο admin δημιουργείται αυτόματα στη βάση με username admin και password admin. Ο admin μπορεί να δει όλους users, όλες τις αιτήσεις, να τα επεξεργαστεί και έχει την δυνατότητα να δώσει ρόλο inspector σε όσους users το επιθυμούν.
+
+Ο inspector βλέπει όσους users έχουν κάνει αιτήσεις, και τον εαυτό του τον οποίο μπορεί και να επεξεργαστεί. Στις αιτήσεις αποφασίζει για την έκβαση της απόφασης και αν θέλει υπάρχει και επιλογή check on site. Αν επιλέξει accept σε μια αίτηση πρέπει να δώσει ως body amount που είναι το ποσό της αποζημίωσης. 
