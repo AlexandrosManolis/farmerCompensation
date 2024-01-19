@@ -46,7 +46,8 @@ public class User {
     private String address;
 
     @NotBlank
-    @Digits(message="Number should contain 9 digits.", fraction = 0, integer = 9)
+    @Size(min = 9, max = 9, message = "Number should contain exactly 9 digits.")
+    @Pattern(regexp = "\\d+", message = "Number should contain only digits.")
     private String afm;
 
     @NotBlank
