@@ -14,7 +14,9 @@ import java.util.Set;
         uniqueConstraints = {
             @UniqueConstraint(columnNames = "username"),
             @UniqueConstraint(columnNames = "password"),
-            @UniqueConstraint(columnNames = "email")
+            @UniqueConstraint(columnNames = "email"),
+            @UniqueConstraint(columnNames = "afm"),
+            @UniqueConstraint(columnNames = "identity_id")
         }
 )
 @JsonIgnoreProperties({"declarations", "requestForRoles"})
