@@ -87,7 +87,7 @@ public class InitialDataService {
         });
 
         userRepository.findByUsername("user3").orElseGet(() -> {
-            User user = new User("user3@gmail.com", "user3", this.passwordEncoder.encode("123"),"user3 fullName","Address 3", "3456789123","AM345678");
+            User user = new User("user3@gmail.com", "user3", this.passwordEncoder.encode("123"),"user3 fullName","Address 3", "345678912","AM345678");
             Set<Role> roles = new HashSet<>();
             roles.add(roleRepository.findByName("ROLE_FARMER").orElseThrow(()-> new RuntimeException("Farmer role not found")));
             user.setRoles(roles);

@@ -77,16 +77,14 @@ public class UserRestController {
                 );
 
                 return new ResponseEntity<>(responseMap, HttpStatus.OK);
-            } else if (userRole.equals("ROLE_INSPECTOR")) {
+            } else if (userRole.equals("ROLE_INSPECTOR") ) {
                 List<User> declarationUsers = declarationService.getUsersWithDeclarations();
                 User user= userService.getUserProfile(userId);
 
-                if (declarationUsers.isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-
                 List<User> combinedList = new ArrayList<>();
-                combinedList.addAll(declarationUsers);
+                if (!declarationUsers.isEmpty()) {
+                    combinedList.addAll(declarationUsers);
+                }
                 combinedList.add(user);
                 
                 List<User> userList = new ArrayList<>();
@@ -96,13 +94,11 @@ public class UserRestController {
                     String userProfileUsername = userDetails.getUsername();
                     String userProfileEmail = userDetails.getEmail();
 
-                    // Creating a response map with the required fields
-                    Map<String, Object> responseMap = Map.of(
-                            "id", userProfileId,
-                            "username", userProfileUsername,
-                            "email", userProfileEmail
-                    );
-                    userList.add((User) responseMap);
+                    User user1 = new User();
+                    user1.setId(userProfileId);
+                    user1.setUsername(userProfileUsername);
+                    user1.setEmail(userProfileEmail);
+                    userList.add(user1);
                 }
 
                 return new ResponseEntity<>(userList, HttpStatus.OK);
