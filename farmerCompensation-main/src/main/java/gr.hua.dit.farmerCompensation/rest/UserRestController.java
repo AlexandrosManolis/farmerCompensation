@@ -141,24 +141,15 @@ public class UserRestController {
     }
 
     @GetMapping("edit/{user_id}")
-    public ResponseEntity<?> editUser(@RequestBody User user,@PathVariable int user_id, Model model) {
-        User editedUser = userService.getUserProfile(user_id);
+    public ResponseEntity<?> editUser(@PathVariable int user_id) {
+        User existingUser = userService.getUserProfile(user_id);
 
-        if (editedUser == null) {
+        if (existingUser == null) {
             return ResponseEntity.badRequest().body("User not found");
         }
 
-        /*
-        editedUser.setUsername(user.getUsername());
-        editedUser.setEmail(user.getEmail());
-        editedUser.setAddress(user.getAddress());
-        editedUser.setAfm(user.getAfm());
-        editedUser.setFull_name(user.getFull_name());
-        editedUser.setIdentity_id(user.getIdentity_id());
-
-        userService.updateUser(editedUser);*/
-
-        return new ResponseEntity<>(editedUser, HttpStatus.OK);
+        // Return the existing user data for pre-populating the form
+        return new ResponseEntity<>(existingUser, HttpStatus.OK);
     }
 
     @PostMapping("edit/{user_id}")
