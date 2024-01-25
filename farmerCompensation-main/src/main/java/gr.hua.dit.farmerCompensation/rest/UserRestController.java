@@ -10,6 +10,8 @@ import gr.hua.dit.farmerCompensation.repository.RoleRepository;
 import gr.hua.dit.farmerCompensation.service.DeclarationService;
 import gr.hua.dit.farmerCompensation.service.RequestForRoleService;
 import gr.hua.dit.farmerCompensation.service.UserService;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,6 +32,9 @@ public class UserRestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -85,7 +91,9 @@ public class UserRestController {
                 if (!declarationUsers.isEmpty()) {
                     combinedList.addAll(declarationUsers);
                 }
-                combinedList.add(user);
+                if (!declarationUsers.contains(user)) {
+                    combinedList.add(user);
+                }
                 
                 List<User> userList = new ArrayList<>();
 
@@ -152,6 +160,7 @@ public class UserRestController {
         return new ResponseEntity<>(existingUser, HttpStatus.OK);
     }
 
+    @Transactional
     @PostMapping("edit/{user_id}")
     public ResponseEntity<?> saveUser(@PathVariable Integer user_id, @RequestBody User user) {
         User the_user = (User) userService.getUser(user_id);
@@ -200,6 +209,7 @@ public class UserRestController {
 
             try{
                 userDAO.saveUser(the_user);
+                entityManager.flush();
 
                 if (authentication != null && authentication.getPrincipal() instanceof User) {
                     User userDetails = (User) authentication.getPrincipal();
@@ -212,16 +222,24 @@ public class UserRestController {
                 return ResponseEntity.ok(new MessageResponse("User has been saved successfully!"));
 
             }catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Error saving user"));
+
+                String errorMessage = "Error saving user: " + e.getMessage();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(errorMessage));
+                //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Error saving user"));
             }
         }else {
             return ResponseEntity.badRequest().body("Unauthorized user!");
         }
     }
 
-    @PostMapping("role/add/{user_id}/{role_id}")
-    public ResponseEntity<?> requestRole(@PathVariable int user_id, @PathVariable int role_id){
+    @PostMapping("role/add/{user_id}")
+    public ResponseEntity<?> requestRole(@PathVariable int user_id){
         String userRole = userService.getUserRole();
+
+        String requestedRole = "ROLE_INSPECTOR";
+        Optional<Role> roleRequest = roleRepository.findByName(requestedRole);
+        Role requestRole = roleRequest.get();
+        Integer role_id = requestRole.getId();
 
         User user = (User) userDAO.getUserProfile(user_id);
         Role role = roleRepository.findById(role_id).get();

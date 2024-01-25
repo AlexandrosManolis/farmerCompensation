@@ -37,7 +37,7 @@ public class DeclarationService {
 
     public List<User> getUsersWithDeclarations() {
         TypedQuery<User> query = entityManager.createQuery(
-                "SELECT DISTINCT r.user FROM DeclarationForm r WHERE r.status = 'Pending' AND r.user IS NOT NULL", User.class);
+                "SELECT DISTINCT r.user FROM DeclarationForm r WHERE (r.status = 'Pending' OR r.status = 'Check on site') AND r.user IS NOT NULL", User.class);
         return query.getResultList();
     }
 

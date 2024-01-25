@@ -67,7 +67,7 @@ public class RequestForRoleRestController {
         List<RequestForRole> requestForRoles = requestForRoleService.getPendingRoleRequests();
 
         if(requestForRoles.isEmpty()){
-            return ResponseEntity.badRequest().body("No Role request found");
+            return ResponseEntity.ok(requestForRoles);
         }else {
             return new ResponseEntity<>(requestForRoles,HttpStatus.OK);
         }

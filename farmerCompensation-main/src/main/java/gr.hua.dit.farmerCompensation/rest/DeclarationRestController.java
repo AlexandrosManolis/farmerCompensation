@@ -1,5 +1,6 @@
 package gr.hua.dit.farmerCompensation.rest;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import gr.hua.dit.farmerCompensation.dao.DeclarationDAO;
 import gr.hua.dit.farmerCompensation.dao.UserDAO;
 import gr.hua.dit.farmerCompensation.entity.DeclarationForm;
@@ -51,14 +52,14 @@ public class DeclarationRestController {
         List<Map<String, Object>> result = new ArrayList<>();
 
 
-        if (declarationForms.isEmpty()){
-            return ResponseEntity.badRequest().body("No declarations found!");
-        }else if(userRole.equals("ROLE_ADMIN") || userRole.equals("ROLE_INSPECTOR")){
+        if(userRole.equals("ROLE_ADMIN") || userRole.equals("ROLE_INSPECTOR")){
             for (DeclarationForm declarationForm : declarationForms) {
                 Map<String, Object> declarationInfo = new HashMap<>();
                 declarationInfo.put("id", declarationForm.getId());
                 declarationInfo.put("description", declarationForm.getDescription());
-                declarationInfo.put("Submission date", declarationForm.getSubmissionDate());
+                declarationInfo.put("submissionDate", declarationForm.getSubmissionDate());
+                declarationInfo.put("userId", declarationForm.getUser().getId());
+                declarationInfo.put("status", declarationForm.getStatus());
                 result.add(declarationInfo);
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -67,7 +68,10 @@ public class DeclarationRestController {
                 Map<String, Object> declarationInfo = new HashMap<>();
                 declarationInfo.put("id", declarationForm.getId());
                 declarationInfo.put("description", declarationForm.getDescription());
-                declarationInfo.put("Submission date", declarationForm.getSubmissionDate());
+                declarationInfo.put("submissionDate", declarationForm.getSubmissionDate());
+                declarationInfo.put("userId", declarationForm.getUser().getId());
+                declarationInfo.put("status", declarationForm.getStatus());
+
                 result.add(declarationInfo);
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -115,20 +119,9 @@ public class DeclarationRestController {
             return ResponseEntity.badRequest().body("You can't save the declaration!");
         }
 
-/*
-        newDeclaration.setAnnualStartProduction(declarationForm.getAnnualStartProduction());
-        newDeclaration.setDamageDate(declarationForm.getDamageDate());
-        newDeclaration.setDescription(declarationForm.getDescription());
-        newDeclaration.setFieldAddress(declarationForm.getFieldAddress());
-        newDeclaration.setFieldSize(declarationForm.getFieldSize());
-        newDeclaration.setPlant_production(declarationForm.getPlant_production());
-        newDeclaration.setStatus("Pending");
-
-        newDeclaration.setSubmissionDate(getCurrentDate());*/
-        //declarationService.updateDeclaration(newDeclaration);
     }
 
-    @PostMapping("")
+    @PostMapping("new")
     public ResponseEntity<?> saveDeclaration(@PathVariable int user_id, @RequestBody DeclarationForm declarationForm) {
         DeclarationForm newDeclarationForm = new DeclarationForm();
 
@@ -152,6 +145,7 @@ public class DeclarationRestController {
             declarationService.saveDeclaration(newDeclarationForm,user_id);
             return new ResponseEntity<>(newDeclarationForm,HttpStatus.OK);
         } else if(user_id == userId) {
+
             newDeclarationForm.setAnnualStartProduction(declarationForm.getAnnualStartProduction());
             newDeclarationForm.setDamageDate(declarationForm.getDamageDate());
             newDeclarationForm.setDescription(declarationForm.getDescription());
@@ -170,11 +164,13 @@ public class DeclarationRestController {
     }
 
     private Date getCurrentDate() {
+
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String formattedDate = dateFormat.format(currentDate);
+
 
         try {
+            String formattedDate = dateFormat.format(currentDate);
             return dateFormat.parse(formattedDate);
         } catch (Exception e) {
             e.printStackTrace(); // Handle the exception as needed

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/declaration/report/{user_id}")
 public class ReportsRestController {
@@ -37,7 +39,7 @@ public class ReportsRestController {
     }
 
     @PostMapping("checkonsite/{declaration_id}")
-    public ResponseEntity<?> ChangeToCheck(@PathVariable int user_id, @PathVariable int declaration_id, Model model){
+    public ResponseEntity<?> ChangeToCheck(@PathVariable int user_id, @PathVariable int declaration_id){
         DeclarationForm declarationForm = declarationDAO.getDeclaration(declaration_id);
         User user = userDAO.getUserProfile(user_id);
 
@@ -46,7 +48,7 @@ public class ReportsRestController {
         }else{
             declarationForm.setStatus("Check on site");
             declarationService.saveDeclaration(declarationForm,user_id);
-            return new ResponseEntity<>("Status changed to check on site!", HttpStatus.OK);
+            return ResponseEntity.ok(Map.of("message", "Status changed to Check on site!"));
         }
     }
 
