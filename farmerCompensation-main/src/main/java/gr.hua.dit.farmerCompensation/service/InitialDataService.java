@@ -33,18 +33,18 @@ public class InitialDataService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-//
-//    public InitialDataService(UserRepository userRepository,
-//                              RoleRepository roleRepository,
-//                              RequestForRoleRepository requestForRoleRepository,
-//                              DeclarationRepository declarationRepository,
-//                              PasswordEncoder passwordEncoder) {
-//        this.userRepository = userRepository;
-//        this.roleRepository = roleRepository;
-//        this.requestForRoleRepository= requestForRoleRepository;
-//        this.declarationRepository = declarationRepository;
-//        this.passwordEncoder = passwordEncoder;
-//    }
+
+    public InitialDataService(UserRepository userRepository,
+                              RoleRepository roleRepository,
+                              RequestForRoleRepository requestForRoleRepository,
+                              DeclarationRepository declarationRepository,
+                              PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.requestForRoleRepository= requestForRoleRepository;
+        this.declarationRepository = declarationRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     private void createRolesAndUsers() {
 
