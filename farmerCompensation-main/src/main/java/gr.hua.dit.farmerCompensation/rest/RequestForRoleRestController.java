@@ -59,7 +59,6 @@ public class RequestForRoleRestController {
             return ResponseEntity.badRequest().body(new MessageResponse("Delete was not accepted"));
         }
 
-
     }
 
     @GetMapping("requests")
