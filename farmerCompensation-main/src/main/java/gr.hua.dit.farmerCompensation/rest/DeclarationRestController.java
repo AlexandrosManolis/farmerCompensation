@@ -60,6 +60,7 @@ public class DeclarationRestController {
                 declarationInfo.put("submissionDate", declarationForm.getSubmissionDate());
                 declarationInfo.put("userId", declarationForm.getUser().getId());
                 declarationInfo.put("status", declarationForm.getStatus());
+                declarationInfo.put("amount", declarationForm.getAmount());
                 result.add(declarationInfo);
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -71,6 +72,7 @@ public class DeclarationRestController {
                 declarationInfo.put("submissionDate", declarationForm.getSubmissionDate());
                 declarationInfo.put("userId", declarationForm.getUser().getId());
                 declarationInfo.put("status", declarationForm.getStatus());
+                declarationInfo.put("amount", declarationForm.getAmount());
 
                 result.add(declarationInfo);
             }
@@ -189,15 +191,15 @@ public class DeclarationRestController {
 
         DeclarationForm declarationForm= declarationDAO.getDeclaration(declaration_id);
         if(declarationForm==null){
-            return new ResponseEntity<>("Declaration does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("declaration does not exist", HttpStatus.NOT_FOUND);
         }else if(userRole.equals("ROLE_ADMIN")){
             declarationService.deleteDeclaration(declaration_id);
-            return new ResponseEntity<>("Declaration deleted!",HttpStatus.OK);
-        }else if(userRole.equals("ROLE_FARMER") && !userRole.equals("ROLE_INSPECTOR") && userId==user_id){
+            return new ResponseEntity<>("declaration deleted!",HttpStatus.OK);
+        }else if(userId==user_id){
             declarationService.deleteDeclaration(declaration_id);
-            return new ResponseEntity<>("Declaration deleted!",HttpStatus.OK);
+            return new ResponseEntity<>("declaration deleted!",HttpStatus.OK);
         }else{
-            return ResponseEntity.badRequest().body("You cant delete the declaration");
+            return ResponseEntity.badRequest().body("you cant delete the declaration");
         }
     }
 

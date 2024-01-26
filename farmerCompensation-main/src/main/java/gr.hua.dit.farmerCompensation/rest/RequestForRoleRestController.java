@@ -89,9 +89,9 @@ public class RequestForRoleRestController {
         requestForRoleService.saveRequest(request, user_id);
         requestForRoleService.deleteRequest(request_id);
 
-        return new ResponseEntity<>("User's role request approved!",HttpStatus.OK);
+        return new ResponseEntity<>("user's role request approved!",HttpStatus.OK);
         }else {
-            return new ResponseEntity<>("Role not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("role not found!", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -106,7 +106,7 @@ public class RequestForRoleRestController {
 
         requestForRoleService.saveRequest(request, user_id);
         requestForRoleService.deleteRequest(request_id);
-        return new ResponseEntity<>("User's role request rejected!", HttpStatus.OK);
+        return new ResponseEntity<>("user's role request rejected!", HttpStatus.OK);
 
     }
 }

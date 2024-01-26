@@ -37,6 +37,18 @@ public class SignupRequest {
 
     private Set<String> role;
 
+    public SignupRequest(String email, String username, String password, String full_name, String address, String afm, String identity_id) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.full_name = full_name;
+        this.address = address;
+        this.afm = afm;
+        this.identity_id = identity_id;
+    }
+
+
+
     public String getEmail() {
         return email;
     }
