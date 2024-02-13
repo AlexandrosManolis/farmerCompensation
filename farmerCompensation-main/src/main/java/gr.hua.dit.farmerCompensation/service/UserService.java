@@ -39,19 +39,18 @@ public class UserService implements UserDetailsService {
     private EntityManager entityManager;
 
     @Transactional
-    public Integer saveUser(User user) {
-        String passwd= user.getPassword();
-        String encodedPasswod = passwordEncoder.encode(passwd);
-        user.setPassword(encodedPasswod);
+    public void saveUser(User user) {
+//        String passwd= user.getPassword();
+//        String encodedPasswod = passwordEncoder.encode(passwd);
+//        user.setPassword(encodedPasswod);
 
-        Role role = roleRepository.findByName("ROLE_FARMER")
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+//        Role role = roleRepository.findByName("ROLE_FARMER")
+//                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(role);
+//        user.setRoles(roles);
 
-        user = userRepository.save(user);
-        return user.getId();
+        userRepository.save(user);
     }
 
     @Transactional

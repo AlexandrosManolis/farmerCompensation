@@ -36,7 +36,7 @@ public class User {
     private String username;
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", flags = Pattern.Flag.MULTILINE)
+    @Pattern(regexp = "^.{6,}$", flags = Pattern.Flag.MULTILINE)
     private String password;
 
     @NotBlank
@@ -74,6 +74,7 @@ public class User {
         this.address = address;
         this.afm = afm;
         this.identity_id = identity_id;
+        this.roles = new HashSet<>();
     }
 
 

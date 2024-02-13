@@ -13,10 +13,13 @@ import gr.hua.dit.farmerCompensation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/admin/users")
@@ -29,9 +32,6 @@ public class RequestForRoleRestController {
     RoleRepository roleRepository;
 
     @Autowired
-    private RequestForRoleRepository requestForRoleRepository;
-
-    @Autowired
     private RequestForRoleService requestForRoleService;
 
     @Autowired
@@ -39,6 +39,7 @@ public class RequestForRoleRestController {
 
     @Autowired
     private UserService userService;
+
 
     @GetMapping("role/delete/{user_id}/{role_id}")
     public ResponseEntity<?> deleteRoleFromUser(@PathVariable int user_id, @PathVariable Integer role_id){

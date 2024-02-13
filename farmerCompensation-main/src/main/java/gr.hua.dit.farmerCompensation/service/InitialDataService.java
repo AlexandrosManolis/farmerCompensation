@@ -34,6 +34,7 @@ public class InitialDataService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
     public InitialDataService(UserRepository userRepository,
                               RoleRepository roleRepository,
                               RequestForRoleRepository requestForRoleRepository,
@@ -80,7 +81,7 @@ public class InitialDataService {
             User user = new User("user2@gmail.com", "user2", this.passwordEncoder.encode("54321"),"user2 fullName","Address 2", "234567890","AM012345");
             Set<Role> roles = new HashSet<>();
             roles.add(roleRepository.findByName("ROLE_FARMER").orElseThrow(()-> new RuntimeException("Farmer role not found")));
-            roles.add(roleRepository.findByName("ROLE_INSPECTOR)").orElseThrow(()-> new RuntimeException("Inspector role not found")));
+            roles.add(roleRepository.findByName("ROLE_INSPECTOR").orElseThrow(()-> new RuntimeException("Inspector role not found")));
             user.setRoles(roles);
             userRepository.save(user);
             return null;

@@ -1,7 +1,9 @@
 package gr.hua.dit.farmerCompensation.payload.request;
 
+import gr.hua.dit.farmerCompensation.entity.Role;
 import jakarta.validation.constraints.*;
 
+import java.util.HashSet;
 import java.util.Set;
 public class SignupRequest {
 
@@ -15,7 +17,7 @@ public class SignupRequest {
     private String username;
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", flags = Pattern.Flag.MULTILINE)
+    @Pattern(regexp = "^.{6,}$", flags = Pattern.Flag.MULTILINE)
     private String password;
 
     @NotBlank
@@ -35,18 +37,7 @@ public class SignupRequest {
     @Pattern(regexp = "[A-Z]{2}\\d{6}", flags = Pattern.Flag.MULTILINE)
     private String identity_id;
 
-    private Set<String> role;
-
-    public SignupRequest(String email, String username, String password, String full_name, String address, String afm, String identity_id) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.full_name = full_name;
-        this.address = address;
-        this.afm = afm;
-        this.identity_id = identity_id;
-    }
-
+    private Set<Role> role;
 
 
     public String getEmail() {
@@ -105,11 +96,11 @@ public class SignupRequest {
         this.identity_id = identity_id;
     }
 
-    public Set<String> getRole() {
+    public Set<Role> getRole() {
         return role;
     }
 
-    public void setRole(Set<String> role) {
+    public void setRole(Set<Role> role) {
         this.role = role;
     }
 }

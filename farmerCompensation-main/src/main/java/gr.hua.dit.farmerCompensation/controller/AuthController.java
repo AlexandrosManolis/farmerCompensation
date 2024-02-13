@@ -15,12 +15,14 @@ import gr.hua.dit.farmerCompensation.service.UserService;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -34,16 +36,14 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    BCryptPasswordEncoder encoder;
 
     @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
-    private DeclarationService declarationService;
+    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    BCryptPasswordEncoder encoder;
 
     @Autowired
      AuthenticationManager authenticationManager;
@@ -55,7 +55,7 @@ public class AuthController {
     private JwtUtils jwtUtils;
 
 
-    @PostMapping("/signin")
+    @PostMapping("signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         System.out.println("authentication");
 
@@ -79,37 +79,44 @@ public class AuthController {
                 roles));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+    @PostMapping("signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
-
-        // Create new user's account
-        User user = new User(signUpRequest.getEmail(),signUpRequest.getUsername(),encoder.encode(signUpRequest.getPassword()),
-                signUpRequest.getFull_name(),signUpRequest.getAddress(),signUpRequest.getAfm(), signUpRequest.getIdentity_id()
-                );
-
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName("ROLE_FARMER")
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
+        if (userRepository.existsByAfm(user.getAfm())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Afm is already in use!"));
         }
-        user.setRoles(roles);
-        userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+//        // Create new user's account
+//        User newuser = new User();
+//        newuser.setEmail(user.getEmail());
+//        newuser.setUsername(user.getUsername());
+//        newuser.setPassword(this.passwordEncoder.encode(user.getPassword()));
+//        newuser.setFull_name(user.getFull_name());
+//        newuser.setAddress(user.getAddress());
+//        newuser.setAfm(user.getAfm());
+//        newuser.setIdentity_id(user.getIdentity_id());
+
+        User newuser= new User(user.getEmail(), user.getUsername(),encoder.encode(user.getPassword()),user.getFull_name(),user.getAddress(),user.getAfm(),user.getIdentity_id());
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository.findByName("ROLE_FARMER").orElseThrow(()-> new RuntimeException("Farmer role not found")));
+        newuser.setRoles(roles);
+
+        userRepository.save(newuser);
+
+        return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
     }
 
 }

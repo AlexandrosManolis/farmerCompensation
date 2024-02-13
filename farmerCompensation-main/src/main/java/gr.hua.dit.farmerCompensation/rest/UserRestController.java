@@ -7,6 +7,7 @@ import gr.hua.dit.farmerCompensation.entity.User;
 import gr.hua.dit.farmerCompensation.payload.response.MessageResponse;
 import gr.hua.dit.farmerCompensation.repository.DeclarationRepository;
 import gr.hua.dit.farmerCompensation.repository.RoleRepository;
+import gr.hua.dit.farmerCompensation.repository.UserRepository;
 import gr.hua.dit.farmerCompensation.service.DeclarationService;
 import gr.hua.dit.farmerCompensation.service.RequestForRoleService;
 import gr.hua.dit.farmerCompensation.service.UserService;
@@ -17,13 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -32,9 +31,6 @@ public class UserRestController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -50,6 +46,10 @@ public class UserRestController {
 
     @Autowired
     private DeclarationService declarationService;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
 
     @GetMapping("")
@@ -156,7 +156,6 @@ public class UserRestController {
             return ResponseEntity.badRequest().body("User not found");
         }
 
-        // Return the existing user data for pre-populating the form
         return new ResponseEntity<>(existingUser, HttpStatus.OK);
     }
 
@@ -174,7 +173,7 @@ public class UserRestController {
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
         
-        if (userRole.equals("ROLE_ADMIN")){
+        if (userRole.equals("ROLE_ADMIN") || ((userId == user_id) && (userRole.equals("ROLE_FARMER") || userRole.equals("ROLE_INSPECTOR")))){
             the_user.setUsername(user.getUsername());
             the_user.setEmail(user.getEmail());
             the_user.setAddress(user.getAddress());
@@ -184,32 +183,6 @@ public class UserRestController {
 
             try{
                 userDAO.saveUser(the_user);
-
-                if (authentication != null && authentication.getPrincipal() instanceof User) {
-                    User userDetails = (User) authentication.getPrincipal();
-                    if (userDetails.getUsername().equals(the_user.getUsername())) {
-                        // Update the user details in the principal
-                        ((User) authentication.getPrincipal()).setUsername(the_user.getUsername());
-                        ((User) authentication.getPrincipal()).setEmail(the_user.getEmail());
-                    }
-                }
-                return ResponseEntity.ok(new MessageResponse("User has been saved successfully!"));
-
-            }catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Error saving user"));
-            }
-            
-        } else if ((userId == user_id) && (userRole.equals("ROLE_FARMER") || userRole.equals("ROLE_INSPECTOR"))) {
-            the_user.setUsername(user.getUsername());
-            the_user.setEmail(user.getEmail());
-            the_user.setAddress(user.getAddress());
-            the_user.setAfm(user.getAfm());
-            the_user.setFull_name(user.getFull_name());
-            the_user.setIdentity_id(user.getIdentity_id());
-
-            try{
-                userDAO.saveUser(the_user);
-                entityManager.flush();
 
                 if (authentication != null && authentication.getPrincipal() instanceof User) {
                     User userDetails = (User) authentication.getPrincipal();
@@ -225,9 +198,9 @@ public class UserRestController {
 
                 String errorMessage = "Error saving user: " + e.getMessage();
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(errorMessage));
-                //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Error saving user"));
             }
-        }else {
+            
+        } else {
             return ResponseEntity.badRequest().body("Unauthorized user!");
         }
     }

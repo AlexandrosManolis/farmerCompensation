@@ -24,13 +24,6 @@ public class SecurityConfig{
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -60,18 +53,17 @@ public class SecurityConfig{
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**",
-                                        "/v3/api-docs/**",
+                        .requestMatchers("/api/auth/signin").permitAll()
+                        .requestMatchers("/v3/api-docs/**",
                                         "/v2/api-docs/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html").permitAll()
-
+                        .requestMatchers("/api/auth/signup").hasRole("ADMIN")
                         .requestMatchers("/api/admin/users/**").hasRole("ADMIN")
 
                         .requestMatchers("/api/declaration/{user_id}/***", "/api/users/**").hasAnyRole("ADMIN", "INSPECTOR", "FARMER")
 
                         .requestMatchers("/api/declaration/report/{user_id}/***").hasAnyRole("ADMIN", "INSPECTOR")
-
 
                         .anyRequest().authenticated()
                 )
