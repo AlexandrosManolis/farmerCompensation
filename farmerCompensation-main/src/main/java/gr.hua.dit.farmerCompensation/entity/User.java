@@ -16,7 +16,7 @@ import java.util.Set;
             @UniqueConstraint(columnNames = "password"),
             @UniqueConstraint(columnNames = "email"),
             @UniqueConstraint(columnNames = "afm"),
-            @UniqueConstraint(columnNames = "identity_id")
+            @UniqueConstraint(columnNames = "identity")
         }
 )
 @JsonIgnoreProperties({"declarations", "requestForRoles"})
@@ -36,7 +36,7 @@ public class User {
     private String username;
 
     @NotBlank
-    @Pattern(regexp = "^.{6,}$", flags = Pattern.Flag.MULTILINE)
+    @Pattern(regexp = "^.{5,}$", flags = Pattern.Flag.MULTILINE)
     private String password;
 
     @NotBlank
@@ -55,7 +55,7 @@ public class User {
     @NotBlank
     @Size(min=8, max=8)
     @Pattern(regexp = "[A-Z]{2}\\d{6}", flags = Pattern.Flag.MULTILINE)
-    private String identity_id;
+    private String identity;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable( name = "user_role",
@@ -66,14 +66,14 @@ public class User {
     public User() {
     }
 
-    public User(String email, String username, String password, String full_name, String address, String afm, String identity_id) {
+    public User(String email, String username, String password, String full_name, String address, String afm, String identity) {
         this.email = email;
         this.username = username;
         this.password = password;
        this.full_name = full_name;
         this.address = address;
         this.afm = afm;
-        this.identity_id = identity_id;
+        this.identity = identity;
         this.roles = new HashSet<>();
     }
 
@@ -155,12 +155,12 @@ public class User {
         this.afm = afm;
     }
 
-    public String getIdentity_id() {
-        return identity_id;
+    public String getIdentity() {
+        return identity;
     }
 
-    public void setIdentity_id(String identity_id) {
-        this.identity_id = identity_id;
+    public void setIdentity_id(String identity) {
+        this.identity = identity;
     }
 
 

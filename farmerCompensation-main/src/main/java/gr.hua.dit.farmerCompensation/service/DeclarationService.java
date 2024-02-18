@@ -41,6 +41,10 @@ public class DeclarationService {
         return query.getResultList();
     }
 
+    public boolean doesDeclarationExistForUser(Long user_id) {
+        return declarationRepository.existsByUserId(user_id);
+    }
+
     @Transactional
     public Integer getUserIdForDeclaration(Integer declarationId) {
         return declarationDAO.getUserIdForDeclaration(declarationId);

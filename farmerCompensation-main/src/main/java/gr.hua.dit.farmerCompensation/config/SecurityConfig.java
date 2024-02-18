@@ -47,25 +47,20 @@ public class SecurityConfig{
         corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
         http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(request -> corsConfiguration))
-                .addFilterBefore(authenticationJwtTokenFilter(),UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(unauthorizedHandler))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/signin").permitAll()
-                        .requestMatchers("/v3/api-docs/**",
-                                        "/v2/api-docs/**",
-                                        "/swagger-ui/**",
-                                        "/swagger-ui.html").permitAll()
-                        .requestMatchers("/api/auth/signup").hasRole("ADMIN")
-                        .requestMatchers("/api/admin/users/**").hasRole("ADMIN")
+                                        .csrf(csrf -> csrf.disable())
+                                        .cors(cors -> cors.configurationSource(request -> corsConfiguration))
+                                        .addFilterBefore(authenticationJwtTokenFilter(),UsernamePasswordAuthenticationFilter.class)
+                                        .exceptionHandling(ex -> ex
+                                                .authenticationEntryPoint(unauthorizedHandler))
+                                        .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers("/v3/api-docs/**", "/v2/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                                                .requestMatchers("/api/auth/**").permitAll()
+                                                .requestMatchers("/api/admin/users/**").hasRole("ADMIN")
+                                                .requestMatchers("/api/declaration/{user_id}/**").hasAnyRole("ADMIN", "INSPECTOR", "FARMER")
+                                                .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "INSPECTOR", "FARMER")
+                                                .requestMatchers("/api/declaration/report/{user_id}/**").hasAnyRole("ADMIN", "INSPECTOR")
 
-                        .requestMatchers("/api/declaration/{user_id}/***", "/api/users/**").hasAnyRole("ADMIN", "INSPECTOR", "FARMER")
-
-                        .requestMatchers("/api/declaration/report/{user_id}/***").hasAnyRole("ADMIN", "INSPECTOR")
-
-                        .anyRequest().authenticated()
+                                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout((logout) -> logout.permitAll());

@@ -203,8 +203,8 @@ public class DeclarationRestController {
         }
     }
 
-    @GetMapping("{declaration_id}")
-    public ResponseEntity<?> editDeclaration(@RequestBody DeclarationForm declarationForm, @PathVariable int user_id, @PathVariable int declaration_id){
+    @GetMapping("edit/{declaration_id}")
+    public ResponseEntity<?> editDeclaration(@PathVariable int user_id, @PathVariable int declaration_id){
         DeclarationForm updatedDeclarationForm = declarationDAO.getDeclaration(declaration_id);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -226,20 +226,9 @@ public class DeclarationRestController {
         }else{
             return ResponseEntity.badRequest().body("You can't edit the declaration!");
         }
-/*
-        updatedDeclarationForm.setAnnualStartProduction(declarationForm.getAnnualStartProduction());
-        updatedDeclarationForm.setDamageDate(declarationForm.getDamageDate());
-        updatedDeclarationForm.setDescription(declarationForm.getDescription());
-        updatedDeclarationForm.setFieldAddress(declarationForm.getFieldAddress());
-        updatedDeclarationForm.setFieldSize(declarationForm.getFieldSize());
-        updatedDeclarationForm.setPlant_production(declarationForm.getPlant_production());
-        updatedDeclarationForm.setStatus("Pending");
-
-        updatedDeclarationForm.setSubmissionDate(getCurrentDate());
-        declarationService.updateDeclaration(updatedDeclarationForm);*/
     }
 
-    @PostMapping("{declaration_id}")
+    @PostMapping("edit/{declaration_id}")
     public ResponseEntity<?> updateDeclaration(@RequestBody DeclarationForm declarationForm,@PathVariable int user_id, @PathVariable int declaration_id){
 
         DeclarationForm updatedDeclaration = declarationDAO.getDeclaration(declaration_id);

@@ -17,7 +17,7 @@ public class SignupRequest {
     private String username;
 
     @NotBlank
-    @Pattern(regexp = "^.{6,}$", flags = Pattern.Flag.MULTILINE)
+    @Pattern(regexp = "^.{5,}$", flags = Pattern.Flag.MULTILINE)
     private String password;
 
     @NotBlank
@@ -35,9 +35,9 @@ public class SignupRequest {
     @NotBlank
     @Size(min=8, max=8)
     @Pattern(regexp = "[A-Z]{2}\\d{6}", flags = Pattern.Flag.MULTILINE)
-    private String identity_id;
+    private String identity;
 
-    private Set<Role> role;
+    private Set<Role> roles;
 
 
     public String getEmail() {
@@ -88,19 +88,19 @@ public class SignupRequest {
         this.afm = afm;
     }
 
-    public String getIdentity_id() {
-        return identity_id;
+    public String getIdentity() {
+        return identity;
     }
 
-    public void setIdentity_id(String identity_id) {
-        this.identity_id = identity_id;
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 
-    public Set<Role> getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Set<Role> role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeclarationRepository extends JpaRepository<DeclarationForm, Integer> {
+    boolean existsByUserId(Long userId);
 
 }

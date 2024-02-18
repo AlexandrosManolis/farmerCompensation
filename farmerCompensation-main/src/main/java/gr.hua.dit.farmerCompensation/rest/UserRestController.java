@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +51,8 @@ public class UserRestController {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("")
     public ResponseEntity<?> showUser(){
@@ -163,6 +165,7 @@ public class UserRestController {
     @PostMapping("edit/{user_id}")
     public ResponseEntity<?> saveUser(@PathVariable Integer user_id, @RequestBody User user) {
         User the_user = (User) userService.getUser(user_id);
+        User editedUser = userDAO.getUserProfile(user_id);
 
         if (the_user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("User not found"));
@@ -172,6 +175,35 @@ public class UserRestController {
 
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
+
+        if (userRepository.existsByUsername(the_user.getUsername()) && the_user.getUsername() != editedUser.getUsername()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (userRepository.existsByEmail(the_user.getEmail()) && the_user.getEmail() != editedUser.getEmail()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+        if (userRepository.existsByAfm(the_user.getAfm()) && the_user.getAfm() != editedUser.getAfm()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Afm is already in use!"));
+        }
+        if (userRepository.existsByIdentity(the_user.getIdentity()) && the_user.getIdentity() != editedUser.getIdentity()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Identity id is already in use!"));
+        }
+
+//        if (userRepository.existsByPassword(encoder.encode(the_user.getPassword()))
+//                && (passwordEncoder.encode(the_user.getPassword()) != passwordEncoder.encode(editedUser.getPassword()))) {
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(new MessageResponse("Error: Password is already in use!"));
+//        }
         
         if (userRole.equals("ROLE_ADMIN") || ((userId == user_id) && (userRole.equals("ROLE_FARMER") || userRole.equals("ROLE_INSPECTOR")))){
             the_user.setUsername(user.getUsername());
@@ -179,7 +211,7 @@ public class UserRestController {
             the_user.setAddress(user.getAddress());
             the_user.setAfm(user.getAfm());
             the_user.setFull_name(user.getFull_name());
-            the_user.setIdentity_id(user.getIdentity_id());
+            the_user.setIdentity_id(user.getIdentity());
 
             try{
                 userDAO.saveUser(the_user);

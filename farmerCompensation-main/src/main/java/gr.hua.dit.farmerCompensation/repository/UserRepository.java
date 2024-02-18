@@ -2,6 +2,7 @@ package gr.hua.dit.farmerCompensation.repository;
 
 import gr.hua.dit.farmerCompensation.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Boolean existsByEmail(String email);
 
     boolean existsByAfm(String afm);
+
+    boolean existsByIdentity(String identity);
+
+    boolean existsByPassword(String password);
 }
