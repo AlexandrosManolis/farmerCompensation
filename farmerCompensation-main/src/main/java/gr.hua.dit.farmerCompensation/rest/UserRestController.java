@@ -54,6 +54,9 @@ public class UserRestController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    BCryptPasswordEncoder encoder;
+
     @GetMapping("")
     public ResponseEntity<?> showUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -197,13 +200,6 @@ public class UserRestController {
                     .badRequest()
                     .body(new MessageResponse("Error: Identity id is already in use!"));
         }
-
-//        if (userRepository.existsByPassword(encoder.encode(the_user.getPassword()))
-//                && (passwordEncoder.encode(the_user.getPassword()) != passwordEncoder.encode(editedUser.getPassword()))) {
-//            return ResponseEntity
-//                    .badRequest()
-//                    .body(new MessageResponse("Error: Password is already in use!"));
-//        }
         
         if (userRole.equals("ROLE_ADMIN") || ((userId == user_id) && (userRole.equals("ROLE_FARMER") || userRole.equals("ROLE_INSPECTOR")))){
             the_user.setUsername(user.getUsername());

@@ -100,11 +100,6 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Identity id is already in use!"));
         }
-        if (userRepository.existsByPassword( encoder.encode(signupRequest.getPassword()))) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Password is already in use!"));
-        }
 
         // Create new user's account
         User user= new User(signupRequest.getEmail(), signupRequest.getUsername(),encoder.encode(signupRequest.getPassword()),signupRequest.getFull_name(),signupRequest.getAddress(),signupRequest.getAfm(),signupRequest.getIdentity());
