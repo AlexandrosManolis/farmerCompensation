@@ -15,20 +15,24 @@ public class DeclarationDAOImpl implements DeclarationDAO{
     @PersistenceContext
     private EntityManager entityManager;
 
+    //get all declarations for a user id
     @Override
     @Transactional
     public List<DeclarationForm> getDeclarations(Integer user_id) {
+        //using typedQuery
         TypedQuery<DeclarationForm> query = entityManager.createQuery(
                 "FROM DeclarationForm d WHERE d.user.id = :user_id", DeclarationForm.class);
         query.setParameter("user_id", user_id);
         return query.getResultList();
     }
 
+    //get declaration with a specific id
     @Override
     public DeclarationForm getDeclaration(Integer declaration_id) {
         return entityManager.find(DeclarationForm.class, declaration_id);
     }
 
+    //get user id with declaration id
     @Override
     public Integer getUserIdForDeclaration(Integer declaration_id) {
         DeclarationForm declaration = entityManager.find(DeclarationForm.class, declaration_id);
@@ -39,6 +43,7 @@ public class DeclarationDAOImpl implements DeclarationDAO{
         }
     }
 
+    //save declaration
     @Override
     @Transactional
     public DeclarationForm saveDeclaration(DeclarationForm declarationForm) {

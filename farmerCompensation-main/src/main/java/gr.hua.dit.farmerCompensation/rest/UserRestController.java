@@ -57,6 +57,7 @@ public class UserRestController {
     @Autowired
     BCryptPasswordEncoder encoder;
 
+    //show user accordingly the role of the authenticated user
     @GetMapping("")
     public ResponseEntity<?> showUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,6 +66,7 @@ public class UserRestController {
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
 
+            //user with role farmer
             if (userRole.equals("ROLE_FARMER") && !userRole.equals("ROLE_INSPECTOR")) {
 
                 if (userId == null) {
@@ -76,6 +78,7 @@ public class UserRestController {
                 if (user == null) {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
+                //show up only his profile data
                 Integer userProfileId = user.getId();
                 String userProfileUsername = user.getUsername();
                 String userProfileEmail = user.getEmail();
@@ -88,10 +91,11 @@ public class UserRestController {
                 );
 
                 return new ResponseEntity<>(responseMap, HttpStatus.OK);
+                //if user's role is inspector take his profile and all the users with declaration
             } else if (userRole.equals("ROLE_INSPECTOR") ) {
                 List<User> declarationUsers = declarationService.getUsersWithDeclarations();
                 User user= userService.getUserProfile(userId);
-
+                //create a list adding all the users with declarations and himself
                 List<User> combinedList = new ArrayList<>();
                 if (!declarationUsers.isEmpty()) {
                     combinedList.addAll(declarationUsers);
@@ -115,7 +119,7 @@ public class UserRestController {
                 }
 
                 return new ResponseEntity<>(userList, HttpStatus.OK);
-
+            //if user has role admin show up all the users
             }else if(userRole.equals("ROLE_ADMIN")){
                     List<User> users = userService.getUsers();
                     return new ResponseEntity<>(users, HttpStatus.OK);
@@ -125,9 +129,10 @@ public class UserRestController {
             }
 
         }
-
+        //details of a specific user
     @GetMapping("details/{user_id}")
     public ResponseEntity<?> userDetails(@PathVariable int user_id){
+        //get user profile
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userRole = userService.getUserRole();
 
@@ -135,7 +140,7 @@ public class UserRestController {
 
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
-
+        //check the role of the authenticated user
         if (((userRole.equals("ROLE_FARMER")) && !(userRole.equals("ROLE_INSPECTOR"))) && (userId != user_id)) {
 
             return new ResponseEntity<>("Unauthorized to see other user's details", HttpStatus.UNAUTHORIZED);
@@ -152,7 +157,7 @@ public class UserRestController {
         }
 
     }
-
+    //return user's data before submit edit
     @GetMapping("edit/{user_id}")
     public ResponseEntity<?> editUser(@PathVariable int user_id) {
         User existingUser = userService.getUserProfile(user_id);
@@ -164,12 +169,13 @@ public class UserRestController {
         return new ResponseEntity<>(existingUser, HttpStatus.OK);
     }
 
+    //submit edit, save the new data of the user
     @Transactional
     @PostMapping("edit/{user_id}")
     public ResponseEntity<?> saveUser(@PathVariable Integer user_id, @RequestBody User user) {
         User the_user = (User) userService.getUser(user_id);
         User editedUser = userDAO.getUserProfile(user_id);
-
+        //validations about user
         if (the_user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("User not found"));
         }
@@ -200,7 +206,7 @@ public class UserRestController {
                     .badRequest()
                     .body(new MessageResponse("Error: Identity id is already in use!"));
         }
-        
+        //set the new values
         if (userRole.equals("ROLE_ADMIN") || ((userId == user_id) && (userRole.equals("ROLE_FARMER") || userRole.equals("ROLE_INSPECTOR")))){
             the_user.setUsername(user.getUsername());
             the_user.setEmail(user.getEmail());
@@ -208,7 +214,7 @@ public class UserRestController {
             the_user.setAfm(user.getAfm());
             the_user.setFull_name(user.getFull_name());
             the_user.setIdentity_id(user.getIdentity());
-
+            //save the changes and change the authentication principals
             try{
                 userDAO.saveUser(the_user);
 
@@ -233,6 +239,7 @@ public class UserRestController {
         }
     }
 
+    //request for role inspector
     @PostMapping("role/add/{user_id}")
     public ResponseEntity<?> requestRole(@PathVariable int user_id){
         String userRole = userService.getUserRole();
@@ -241,11 +248,11 @@ public class UserRestController {
         Optional<Role> roleRequest = roleRepository.findByName(requestedRole);
         Role requestRole = roleRequest.get();
         Integer role_id = requestRole.getId();
-
+        //load user profile, and role
         User user = (User) userDAO.getUserProfile(user_id);
         Role role = roleRepository.findById(role_id).get();
         List<User> usersWithRoles = requestForRoleService.getUsersWithRoleRequests();
-
+        //if user is only farmer and he has not any requests in db, send the request
         if(userRole.equals("ROLE_FARMER") && !userRole.equals("ROLE_INSPECTOR") && !role.equals("ROLE_ADMIN")){
 
             for(User checkUser : usersWithRoles){

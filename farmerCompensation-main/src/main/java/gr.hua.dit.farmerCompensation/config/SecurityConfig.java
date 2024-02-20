@@ -34,7 +34,7 @@ public class SecurityConfig{
         return authConfig.getAuthenticationManager();
 
     }
-
+    //set allowed methods, headers, and requestmatchers depending on the role of the user
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         final CorsConfiguration corsConfiguration = new CorsConfiguration();

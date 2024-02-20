@@ -59,7 +59,7 @@ public class DeclarationForm {
     private String amount;
 
 
-
+    //constructor
     public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status) {
         this.fieldAddress = fieldAddress;
         this.description = description;
@@ -81,6 +81,7 @@ public class DeclarationForm {
         this.user = user;
     }
 
+    //many to one relationship with user
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;

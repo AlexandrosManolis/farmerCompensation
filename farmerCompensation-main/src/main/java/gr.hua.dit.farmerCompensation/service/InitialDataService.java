@@ -56,7 +56,7 @@ public class InitialDataService {
         this.declarationService= declarationService;
         this.passwordEncoder = passwordEncoder;
     }
-
+    //get current date
     private Date getCurrentDate() {
 
         Date currentDate = new Date();
@@ -71,7 +71,7 @@ public class InitialDataService {
             return null;
         }
     }
-
+    //create users in db if they are not exist
     private void createRolesUsersAndDeclarations() {
 
         final List<String> rolesToCreate = List.of("ROLE_ADMIN", "ROLE_FARMER", "ROLE_INSPECTOR");
@@ -142,7 +142,7 @@ public class InitialDataService {
             return null;
         });
     }
-
+    //when program starts call createRolesUsersAndDeclarations
     @PostConstruct
     public void setup(){
         this.createRolesUsersAndDeclarations();

@@ -14,11 +14,14 @@ public class UserDAOImpl implements UserDAO{
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    //get user profile
     @Override
     public User getUserProfile(Integer user_id) {
         return entityManager.find(User.class, user_id);
     }
 
+    //get user id via username using Query
     @Override
     public Integer getUserId(String username) {
         try {
@@ -33,7 +36,7 @@ public class UserDAOImpl implements UserDAO{
         }
     }
 
-
+    //save user
     @Transactional
     public void saveUser(User user) {
         if (user.getId() == null) {

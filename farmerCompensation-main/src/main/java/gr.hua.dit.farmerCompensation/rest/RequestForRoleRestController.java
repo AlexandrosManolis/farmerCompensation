@@ -40,12 +40,13 @@ public class RequestForRoleRestController {
     @Autowired
     private UserService userService;
 
-
+    //delete role from a user inspector
     @GetMapping("role/delete/{user_id}/{role_id}")
     public ResponseEntity<?> deleteRoleFromUser(@PathVariable int user_id, @PathVariable Integer role_id){
         User user = (User) userService.getUser(user_id);
         Role role = roleRepository.findById(role_id).get();
 
+        //check if user has role inspector and delete it
         boolean hasInspectorRole = user.getRoles().stream()
                 .anyMatch(userRole -> "ROLE_INSPECTOR".equals(userRole.getName()));
 
@@ -62,6 +63,7 @@ public class RequestForRoleRestController {
 
     }
 
+    //get role request
     @GetMapping("requests")
     public ResponseEntity<?> showRoleRequests() {
         List<RequestForRole> requestForRoles = requestForRoleService.getPendingRoleRequests();
@@ -73,14 +75,17 @@ public class RequestForRoleRestController {
         }
     }
 
+    //accept request
     @PostMapping("requests/accept/{user_id}/{request_id}")
     public ResponseEntity<?> acceptRequest(@PathVariable int user_id, @PathVariable int request_id){
         RequestForRole request = requestForRoleService.getReport(request_id);
 
+        //get user and the requested role
         User user = userDAO.getUserProfile(user_id);
         Role role = request.getRole();
         String userRole = userService.getUserRole();
 
+        //if user's role is farmer and asks to become inspector set status to approved, add role and update user
         if ("ROLE_INSPECTOR".equals(role.getName()) && user.getRoles().stream().anyMatch(r -> "ROLE_FARMER".equals(r.getName()))) {
         request.setStatus("Approved");
         user.getRoles().add(role);
@@ -88,6 +93,7 @@ public class RequestForRoleRestController {
 
         userService.updateUser(user);
         requestForRoleService.saveRequest(request, user_id);
+        //delete the request
         requestForRoleService.deleteRequest(request_id);
 
         return new ResponseEntity<>("user's role request approved!",HttpStatus.OK);
@@ -96,13 +102,14 @@ public class RequestForRoleRestController {
         }
     }
 
+    //reject request
     @PostMapping("requests/reject/{user_id}/{request_id}")
     public ResponseEntity<?> rejectRequest(@PathVariable int user_id, @PathVariable int request_id,Model model){
-
+        //get user's request
         RequestForRole request = requestForRoleService.getReport(request_id);
         User user = userDAO.getUserProfile(user_id);
         String userRole = userService.getUserRole();
-
+        //set status to rejected, and delete the request
         request.setStatus("Rejected");
 
         requestForRoleService.saveRequest(request, user_id);

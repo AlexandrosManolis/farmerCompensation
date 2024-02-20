@@ -26,6 +26,7 @@ public class ReportsRestController {
     @Autowired
     private DeclarationService declarationService;
 
+    //get declaration reports if exists
     @GetMapping("{declaration_id}")
     public ResponseEntity<?> declarationReport(@PathVariable int user_id, @PathVariable int declaration_id){
         DeclarationForm declarationForm = declarationDAO.getDeclaration(declaration_id);
@@ -38,6 +39,7 @@ public class ReportsRestController {
         }
     }
 
+    //using to change status to check on site after call this method
     @PostMapping("checkonsite/{declaration_id}")
     public ResponseEntity<?> ChangeToCheck(@PathVariable int user_id, @PathVariable int declaration_id){
         DeclarationForm declarationForm = declarationDAO.getDeclaration(declaration_id);
@@ -52,6 +54,7 @@ public class ReportsRestController {
         }
     }
 
+    //using to change status to accepted after call this method and set amount of compensation
     @GetMapping("acceptReport/{declaration_id}")
     public ResponseEntity<?> AcceptReport(@PathVariable int user_id, @PathVariable int declaration_id, @RequestParam String amount, @RequestBody DeclarationForm declarationForm){
         DeclarationForm acceptedDeclarationForm = declarationDAO.getDeclaration(declaration_id);
@@ -64,6 +67,7 @@ public class ReportsRestController {
         return ResponseEntity.ok("Declaration set to accepted!");
     }
 
+    //using to change status to accepted after call this method and set amount of compensation
     @PostMapping("acceptReport/{declaration_id}")
     public ResponseEntity<?> acceptReport(@PathVariable int user_id, @PathVariable int declaration_id, @RequestParam String amount, Model model){
         DeclarationForm declarationForm = declarationDAO.getDeclaration(declaration_id);
@@ -76,6 +80,7 @@ public class ReportsRestController {
         return new ResponseEntity<>(declarationForm,HttpStatus.OK);
     }
 
+    //using to change status to rejected after call this method
     @PostMapping("rejectReport/{declaration_id}")
     public ResponseEntity<?> rejectReport(@PathVariable int user_id, @PathVariable int declaration_id, Model model){
         DeclarationForm declarationForm = declarationDAO.getDeclaration(declaration_id);

@@ -21,6 +21,7 @@ public class JwtUtils {
     @Value("${app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
+    //generate token
     public String generateJwtToken(Authentication authentication) {
         System.out.println("1");
 
@@ -37,11 +38,12 @@ public class JwtUtils {
 
     }
 
-
+    //get username from token
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
+    //validate token
     public boolean validateJwtToken(String authToken) throws SignatureException {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

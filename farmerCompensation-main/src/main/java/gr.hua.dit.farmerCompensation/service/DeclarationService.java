@@ -27,6 +27,7 @@ public class DeclarationService {
     @Autowired
     private EntityManager entityManager;
 
+    //save declaration
     @Transactional
     public void saveDeclaration(DeclarationForm declarationForm, Integer user_id) {
 
@@ -35,6 +36,7 @@ public class DeclarationService {
         declarationRepository.save(declarationForm);
     }
 
+    //get users having declarations via typedQuery
     public List<User> getUsersWithDeclarations() {
         TypedQuery<User> query = entityManager.createQuery(
                 "SELECT DISTINCT r.user FROM DeclarationForm r WHERE (r.status = 'Pending' OR r.status = 'Check on site') AND r.user IS NOT NULL", User.class);
@@ -58,16 +60,19 @@ public class DeclarationService {
         return user;
     }
 
+    //update declaration
     @Transactional
     public Integer updateDeclaration(DeclarationForm declarationForm) {
         declarationForm = declarationRepository.save(declarationForm);
         return declarationForm.getId();
     }
+
     @Transactional
     public Object getDeclarations() {
         return declarationRepository.findAll();
     }
 
+    //delete declaration
     public void deleteDeclaration(int declaration_id){
         declarationRepository.deleteById(declaration_id);
     }

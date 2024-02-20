@@ -51,7 +51,7 @@ public class AuthController {
     @Autowired
     private JwtUtils jwtUtils;
 
-
+    //check username and password and if they are right set token and enter the platform
     @PostMapping("signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         System.out.println("authentication");
@@ -76,9 +76,10 @@ public class AuthController {
                 roles));
     }
 
-
+    //create a new user
     @PostMapping("signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
+        //check if user's data exists
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -104,7 +105,7 @@ public class AuthController {
         // Create new user's account
         User user= new User(signupRequest.getEmail(), signupRequest.getUsername(),encoder.encode(signupRequest.getPassword()),signupRequest.getFull_name(),signupRequest.getAddress(),signupRequest.getAfm(),signupRequest.getIdentity());
 
-
+        //set role farmer
         Set<Role> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
@@ -115,6 +116,7 @@ public class AuthController {
         }
 
         user.setRoles(roles);
+        //save user
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

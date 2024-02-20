@@ -9,8 +9,11 @@ import java.util.Optional;
 
 @Repository
 public interface DeclarationRepository extends JpaRepository<DeclarationForm, Integer> {
+
+    //check if user with an id exists
     boolean existsByUserId(Long userId);
 
+    //find by field address
     Optional<DeclarationForm> findByFieldAddress(String fieldAddress);
 
 }

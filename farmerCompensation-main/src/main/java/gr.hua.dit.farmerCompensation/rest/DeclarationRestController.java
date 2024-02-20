@@ -38,6 +38,7 @@ public class DeclarationRestController {
     @Autowired
     private UserService userService;
 
+    //show all the declarations of a user
     @GetMapping("")
     public ResponseEntity<?> showDeclarations(@PathVariable int user_id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -51,7 +52,7 @@ public class DeclarationRestController {
         List<DeclarationForm> declarationForms = user.getDeclarations();
         List<Map<String, Object>> result = new ArrayList<>();
 
-
+        //accordingly with the role of the user can see all or some of the declarations
         if(userRole.equals("ROLE_ADMIN") || userRole.equals("ROLE_INSPECTOR")){
             for (DeclarationForm declarationForm : declarationForms) {
                 Map<String, Object> declarationInfo = new HashMap<>();
@@ -81,8 +82,10 @@ public class DeclarationRestController {
         return new ResponseEntity<>("Unauthorized to show declarations!", HttpStatus.UNAUTHORIZED);
     }
 
+    //see declaration details
     @GetMapping("details/{declaration_id}")
     public ResponseEntity<?> declarationDetails(@PathVariable int user_id,@PathVariable int declaration_id){
+        //get the declaration
         DeclarationForm declarationForm = declarationDAO.getDeclaration(declaration_id);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -90,7 +93,7 @@ public class DeclarationRestController {
 
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
-
+        //return the details if the user has an acceptable role
         if (declarationForm == null) {
             return ResponseEntity.badRequest().body("No declaration found!");
         }else if(userRole.equals("ROLE_ADMIN") || userRole.equals("ROLE_INSPECTOR")){
@@ -102,6 +105,7 @@ public class DeclarationRestController {
         return new ResponseEntity<>("Unauthorized to see the details", HttpStatus.UNAUTHORIZED);
     }
 
+    //create new declaration
     @GetMapping("new")
     public ResponseEntity<?> newDeclaration(@PathVariable int user_id){
         DeclarationForm newDeclaration = new DeclarationForm();
@@ -123,6 +127,7 @@ public class DeclarationRestController {
 
     }
 
+    //create new declaration
     @PostMapping("new")
     public ResponseEntity<?> saveDeclaration(@PathVariable int user_id, @RequestBody DeclarationForm declarationForm) {
         DeclarationForm newDeclarationForm = new DeclarationForm();
@@ -133,6 +138,7 @@ public class DeclarationRestController {
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
 
+        //Accordingly with the role user has create a new declaration filling in all the fields and set status to pending
         if(userRole.equals("ROLE_ADMIN")){
             newDeclarationForm.setAnnualStartProduction(declarationForm.getAnnualStartProduction());
             newDeclarationForm.setDamageDate(declarationForm.getDamageDate());
@@ -165,6 +171,7 @@ public class DeclarationRestController {
         }
     }
 
+    //take the current date for the submission
     private Date getCurrentDate() {
 
         Date currentDate = new Date();
@@ -181,6 +188,7 @@ public class DeclarationRestController {
     }
 
 
+    //delete the declaration
     @GetMapping("delete/{declaration_id}")
     public ResponseEntity<?> deleteDeclaration(@PathVariable int user_id, @PathVariable int declaration_id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -189,6 +197,7 @@ public class DeclarationRestController {
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
 
+        //get the declaration and if the condition is true excecute delete of the declaration
         DeclarationForm declarationForm= declarationDAO.getDeclaration(declaration_id);
         if(declarationForm==null){
             return new ResponseEntity<>("declaration does not exist", HttpStatus.NOT_FOUND);
@@ -203,6 +212,7 @@ public class DeclarationRestController {
         }
     }
 
+    //get the current data before edit
     @GetMapping("edit/{declaration_id}")
     public ResponseEntity<?> editDeclaration(@PathVariable int user_id, @PathVariable int declaration_id){
         DeclarationForm updatedDeclarationForm = declarationDAO.getDeclaration(declaration_id);
@@ -228,9 +238,10 @@ public class DeclarationRestController {
         }
     }
 
+    //save the new edited declaration
     @PostMapping("edit/{declaration_id}")
     public ResponseEntity<?> updateDeclaration(@RequestBody DeclarationForm declarationForm,@PathVariable int user_id, @PathVariable int declaration_id){
-
+        //get the declaration if exists
         DeclarationForm updatedDeclaration = declarationDAO.getDeclaration(declaration_id);
         User user = userDAO.getUserProfile(user_id);
 
@@ -240,6 +251,7 @@ public class DeclarationRestController {
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
 
+        //Accordingly to the role of the user set the new values, set status again to Pending and set to the current date again.
         if(updatedDeclaration==null){
             return ResponseEntity.badRequest().body("Declaration doesn't exist");
         }else if(userRole.equals("ROLE_ADMIN")){

@@ -53,12 +53,14 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    //update user
     @Transactional
     public Integer updateUser(User user) {
         user = userRepository.save(user);
         return user.getId();
     }
 
+    //load user via username
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -68,20 +70,23 @@ public class UserService implements UserDetailsService {
         return UserDetailsImpl.build(user);
     }
 
+    //get users
     @Transactional
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
+    //get user with a specific id
     public Object getUser(Integer userId) {
         return userRepository.findById(userId).get();
     }
 
-
+    //get user profile
     public User getUserProfile(Integer user_id) {
         return userDAO.getUserProfile(user_id);
     }
 
+    //get user's role
     public String getUserRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -94,7 +99,6 @@ public class UserService implements UserDetailsService {
                 return "ROLE_FARMER";
             }
         }
-
         // Default role if no matching role is found
         return "ROLE_USER";
     }

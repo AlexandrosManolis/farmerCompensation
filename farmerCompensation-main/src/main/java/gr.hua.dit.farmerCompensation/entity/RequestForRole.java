@@ -12,14 +12,17 @@ public class RequestForRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    //status can be only Pending,Approved,or Rejected
     @Check(constraints = "status IN ('Pending', 'Approved', 'Rejected')")
     @Column(name = "status",columnDefinition = "VARCHAR(20) DEFAULT 'Pending'")
     private String status;
 
+    //many to one relationship with user
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
 
+    //many to one relationship with role
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "role_id")
     private Role role;

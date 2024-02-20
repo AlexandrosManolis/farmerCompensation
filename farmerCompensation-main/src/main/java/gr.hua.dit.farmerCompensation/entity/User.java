@@ -8,7 +8,7 @@ import jakarta.validation.constraints.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+//unique constraint
 @Entity
 @Table( name="users",
         uniqueConstraints = {
@@ -45,17 +45,19 @@ public class User {
     @NotBlank
     @Size(max= 20)
     private String address;
-
+    //check for only 9 digits
     @NotBlank
     @Size(min = 9, max = 9, message = "Number should contain exactly 9 digits.")
     @Pattern(regexp = "\\d+", message = "Number should contain only digits.")
     private String afm;
 
+    //identity AA123456
     @NotBlank
     @Size(min=8, max=8)
     @Pattern(regexp = "[A-Z]{2}\\d{6}", flags = Pattern.Flag.MULTILINE)
     private String identity;
 
+    //many to many relationship with role and user create user_role entity
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable( name = "user_role",
                 joinColumns = @JoinColumn(name = "user_id"),

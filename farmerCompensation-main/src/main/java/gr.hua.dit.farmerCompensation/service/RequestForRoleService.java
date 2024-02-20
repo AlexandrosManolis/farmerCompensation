@@ -25,6 +25,7 @@ public class RequestForRoleService {
     @Autowired
     private EntityManager entityManager;
 
+    //save request for role
     @Transactional
     public void saveRequest(RequestForRole requestForRole, Integer user_id) {
 
@@ -34,20 +35,24 @@ public class RequestForRoleService {
         requestForRoleRepository.save(requestForRole);
     }
 
+    //get requests that are pending
     public List<RequestForRole> getPendingRoleRequests() {
         return requestForRoleRepository.findAll();
     }
 
+    //get users with role requests using typedQuery
     public List<User> getUsersWithRoleRequests() {
         TypedQuery<User> query = entityManager.createQuery(
                 "SELECT DISTINCT r.user FROM RequestForRole r WHERE r.status = 'Pending' AND r.user IS NOT NULL", User.class);
         return query.getResultList();
     }
 
+    //get reports
     public RequestForRole getReport(Integer requests_id) {
         return entityManager.find(RequestForRole.class, requests_id);
     }
 
+    //delete request with query
     @Transactional
     public void deleteRequest(Integer request_id){
         Query query = entityManager.createQuery(
