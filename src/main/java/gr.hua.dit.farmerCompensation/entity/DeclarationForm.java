@@ -45,7 +45,8 @@ public class DeclarationForm {
     private String fieldSize;
 
 
-
+    @NotBlank
+    private String naturalDisaster;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/mm/yyyy")
@@ -60,7 +61,7 @@ public class DeclarationForm {
 
 
     //constructor
-    public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status) {
+    public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status, String naturalDisaster) {
         this.fieldAddress = fieldAddress;
         this.description = description;
         this.plant_production = plant_production;
@@ -70,6 +71,7 @@ public class DeclarationForm {
         this.damageDate = damageDate;
         this.status=status;
         this.amount=amount;
+        this.naturalDisaster= naturalDisaster;
 
     }
 
@@ -169,7 +171,13 @@ public class DeclarationForm {
         this.amount = amount;
     }
 
+    public String getNaturalDisaster() {
+        return naturalDisaster;
+    }
 
+    public void setNaturalDisaster(String naturalDisaster) {
+        this.naturalDisaster = naturalDisaster;
+    }
 
     @Override
     public String toString() {
@@ -182,6 +190,7 @@ public class DeclarationForm {
                 ", submissionDate=" + submissionDate +
                 ", fieldSize=" + fieldSize +
                 ", damageDate=" + damageDate +
+                ", naturalDisaster"+ naturalDisaster+
                 '}';
     }
 }

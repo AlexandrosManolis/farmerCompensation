@@ -62,18 +62,22 @@ public class DeclarationRestController {
                 declarationInfo.put("userId", declarationForm.getUser().getId());
                 declarationInfo.put("status", declarationForm.getStatus());
                 declarationInfo.put("amount", declarationForm.getAmount());
+                declarationInfo.put("naturalDisaster", declarationForm.getNaturalDisaster());
                 result.add(declarationInfo);
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
         }else if(userRole.equals("ROLE_FARMER") && !userRole.equals("ROLE_INSPECTOR") && userId==user_id){
             for (DeclarationForm declarationForm : declarationForms) {
+
                 Map<String, Object> declarationInfo = new HashMap<>();
+
                 declarationInfo.put("id", declarationForm.getId());
                 declarationInfo.put("description", declarationForm.getDescription());
                 declarationInfo.put("submissionDate", declarationForm.getSubmissionDate());
                 declarationInfo.put("userId", declarationForm.getUser().getId());
                 declarationInfo.put("status", declarationForm.getStatus());
                 declarationInfo.put("amount", declarationForm.getAmount());
+                declarationInfo.put("naturalDisaster", declarationForm.getNaturalDisaster());
 
                 result.add(declarationInfo);
             }
@@ -146,6 +150,8 @@ public class DeclarationRestController {
             newDeclarationForm.setFieldAddress(declarationForm.getFieldAddress());
             newDeclarationForm.setFieldSize(declarationForm.getFieldSize());
             newDeclarationForm.setPlant_production(declarationForm.getPlant_production());
+            newDeclarationForm.setNaturalDisaster(declarationForm.getNaturalDisaster());
+
             newDeclarationForm.setStatus("Pending");
 
             newDeclarationForm.setSubmissionDate(getCurrentDate());
@@ -160,6 +166,8 @@ public class DeclarationRestController {
             newDeclarationForm.setFieldAddress(declarationForm.getFieldAddress());
             newDeclarationForm.setFieldSize(declarationForm.getFieldSize());
             newDeclarationForm.setPlant_production(declarationForm.getPlant_production());
+            newDeclarationForm.setNaturalDisaster(declarationForm.getNaturalDisaster());
+
             newDeclarationForm.setStatus("Pending");
 
             newDeclarationForm.setSubmissionDate(getCurrentDate());
@@ -261,6 +269,7 @@ public class DeclarationRestController {
             updatedDeclaration.setFieldAddress(declarationForm.getFieldAddress());
             updatedDeclaration.setFieldSize(declarationForm.getFieldSize());
             updatedDeclaration.setPlant_production(declarationForm.getPlant_production());
+            updatedDeclaration.setNaturalDisaster(declarationForm.getNaturalDisaster());
             updatedDeclaration.setStatus("Pending");
 
             updatedDeclaration.setSubmissionDate(getCurrentDate());
@@ -276,6 +285,7 @@ public class DeclarationRestController {
             updatedDeclaration.setFieldAddress(declarationForm.getFieldAddress());
             updatedDeclaration.setFieldSize(declarationForm.getFieldSize());
             updatedDeclaration.setPlant_production(declarationForm.getPlant_production());
+            updatedDeclaration.setNaturalDisaster(declarationForm.getNaturalDisaster());
             updatedDeclaration.setStatus("Pending");
 
             updatedDeclaration.setSubmissionDate(getCurrentDate());
