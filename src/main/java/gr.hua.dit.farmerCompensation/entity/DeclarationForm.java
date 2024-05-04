@@ -62,9 +62,12 @@ public class DeclarationForm {
 
     private String rejectCause;
 
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/mm/yyyy")
+    private Date appointementDate;
 
     //constructor
-    public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status, String naturalDisaster, String rejectCause) {
+    public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status, String naturalDisaster, String rejectCause, Date appointementDate ) {
         this.fieldAddress = fieldAddress;
         this.description = description;
         this.plant_production = plant_production;
@@ -76,6 +79,7 @@ public class DeclarationForm {
         this.amount=amount;
         this.naturalDisaster= naturalDisaster;
         this.rejectCause = rejectCause;
+        this.appointementDate = appointementDate;
 
     }
 
@@ -189,6 +193,14 @@ public class DeclarationForm {
 
     public void setRejectCause(String rejectCause) {
         this.rejectCause = rejectCause;
+    }
+
+    public Date getAppointementDate() {
+        return appointementDate;
+    }
+
+    public void setAppointementDate(Date appointementDate) {
+        this.appointementDate = appointementDate;
     }
 
     @Override

@@ -65,6 +65,8 @@ public class DeclarationRestController {
                 declarationInfo.put("amount", declarationForm.getAmount());
                 declarationInfo.put("naturalDisaster", declarationForm.getNaturalDisaster());
                 declarationInfo.put("rejectCause", declarationForm.getRejectCause());
+                declarationInfo.put("appointementDate", declarationForm.getAppointementDate());
+
                 result.add(declarationInfo);
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -81,6 +83,7 @@ public class DeclarationRestController {
                 declarationInfo.put("amount", declarationForm.getAmount());
                 declarationInfo.put("naturalDisaster", declarationForm.getNaturalDisaster());
                 declarationInfo.put("rejectCause", declarationForm.getRejectCause());
+                declarationInfo.put("appointementDate", declarationForm.getAppointementDate());
 
                 result.add(declarationInfo);
             }

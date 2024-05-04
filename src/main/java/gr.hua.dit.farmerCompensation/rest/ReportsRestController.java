@@ -11,7 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api/declaration/report/{user_id}")
@@ -39,6 +42,27 @@ public class ReportsRestController {
         }
     }
 
+    private static final int DAYS_IN_MONTH = 30; // Assuming a month has 30 days
+
+    private Date getRandomDateWithinNextMonth() {
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+
+        // Calculate the date 1 month later
+        calendar.add(Calendar.MONTH, 1);
+        Date oneMonthLaterDate = calendar.getTime();
+
+        // Generate a random number of days between 0 and 30
+        Random random = new Random();
+        int randomDays = random.nextInt(31); // 31 to include 30 as well
+
+        // Add the random number of days to the current date
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DAY_OF_MONTH, randomDays);
+
+        return calendar.getTime();
+    }
+
     //using to change status to check on site after call this method
     @PostMapping("checkonsite/{declaration_id}")
     public ResponseEntity<?> ChangeToCheck(@PathVariable int user_id, @PathVariable int declaration_id){
@@ -49,6 +73,7 @@ public class ReportsRestController {
             return ResponseEntity.badRequest().body("Not Declaration found!");
         }else{
             declarationForm.setStatus("Check on site");
+            declarationForm.setAppointementDate(getRandomDateWithinNextMonth());
             declarationService.saveDeclaration(declarationForm,user_id);
             return ResponseEntity.ok(Map.of("message", "Status changed to Check on site!"));
         }
