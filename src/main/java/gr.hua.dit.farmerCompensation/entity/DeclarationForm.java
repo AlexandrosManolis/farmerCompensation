@@ -60,8 +60,11 @@ public class DeclarationForm {
     private String amount;
 
 
+    private String rejectCause;
+
+
     //constructor
-    public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status, String naturalDisaster) {
+    public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status, String naturalDisaster, String rejectCause) {
         this.fieldAddress = fieldAddress;
         this.description = description;
         this.plant_production = plant_production;
@@ -72,6 +75,7 @@ public class DeclarationForm {
         this.status=status;
         this.amount=amount;
         this.naturalDisaster= naturalDisaster;
+        this.rejectCause = rejectCause;
 
     }
 
@@ -177,6 +181,14 @@ public class DeclarationForm {
 
     public void setNaturalDisaster(String naturalDisaster) {
         this.naturalDisaster = naturalDisaster;
+    }
+
+    public String getRejectCause() {
+        return rejectCause;
+    }
+
+    public void setRejectCause(String rejectCause) {
+        this.rejectCause = rejectCause;
     }
 
     @Override

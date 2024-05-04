@@ -82,11 +82,12 @@ public class ReportsRestController {
 
     //using to change status to rejected after call this method
     @PostMapping("rejectReport/{declaration_id}")
-    public ResponseEntity<?> rejectReport(@PathVariable int user_id, @PathVariable int declaration_id, Model model){
+    public ResponseEntity<?> rejectReport(@PathVariable int user_id, @PathVariable int declaration_id, @RequestParam String rejectCause,Model model){
         DeclarationForm declarationForm = declarationDAO.getDeclaration(declaration_id);
 
         User user = userDAO.getUserProfile(user_id);
         declarationForm.setStatus("Rejected");
+        declarationForm.setRejectCause(rejectCause);
 
         declarationService.saveDeclaration(declarationForm,user_id);
         return new ResponseEntity<>(declarationForm,HttpStatus.OK);

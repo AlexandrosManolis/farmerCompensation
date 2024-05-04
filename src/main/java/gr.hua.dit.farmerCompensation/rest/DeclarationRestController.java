@@ -56,6 +56,7 @@ public class DeclarationRestController {
         if(userRole.equals("ROLE_ADMIN") || userRole.equals("ROLE_INSPECTOR")){
             for (DeclarationForm declarationForm : declarationForms) {
                 Map<String, Object> declarationInfo = new HashMap<>();
+
                 declarationInfo.put("id", declarationForm.getId());
                 declarationInfo.put("description", declarationForm.getDescription());
                 declarationInfo.put("submissionDate", declarationForm.getSubmissionDate());
@@ -63,6 +64,7 @@ public class DeclarationRestController {
                 declarationInfo.put("status", declarationForm.getStatus());
                 declarationInfo.put("amount", declarationForm.getAmount());
                 declarationInfo.put("naturalDisaster", declarationForm.getNaturalDisaster());
+                declarationInfo.put("rejectCause", declarationForm.getRejectCause());
                 result.add(declarationInfo);
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -78,6 +80,7 @@ public class DeclarationRestController {
                 declarationInfo.put("status", declarationForm.getStatus());
                 declarationInfo.put("amount", declarationForm.getAmount());
                 declarationInfo.put("naturalDisaster", declarationForm.getNaturalDisaster());
+                declarationInfo.put("rejectCause", declarationForm.getRejectCause());
 
                 result.add(declarationInfo);
             }
