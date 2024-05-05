@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Check;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -41,7 +42,7 @@ public class DeclarationForm {
     private Date submissionDate;
 
     @NotBlank
-    @Pattern(regexp = "^[0-9]+(\\.[0-9]+)?$",message = "Size of the field in square meters.")
+    @Pattern(regexp = "^[0-9]+(\\.[0-9]+)?$",message = "Size of the field in acre.")
     private String fieldSize;
 
 
@@ -66,8 +67,17 @@ public class DeclarationForm {
     @DateTimeFormat(pattern = "dd/mm/yyyy")
     private Date appointementDate;
 
+    @Column(precision = 5, scale = 4)
+    private BigDecimal damagePercentage;
+
+    @Pattern(regexp = "^[0-9]+(\\.[0-9]+)?$",message = "Amount in Euros")
+    private String annualRevenues;
+
+    @Pattern(regexp = "^[0-9]+(\\.[0-9]+)?$",message = "Amount in Euros")
+    private String estimatedRefund;
+
     //constructor
-    public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status, String naturalDisaster, String rejectCause, Date appointementDate ) {
+    public DeclarationForm(String fieldAddress, String description, String plant_production, Date annualStartProduction, Date submissionDate, String fieldSize, Date damageDate, User user,String amount,String status, String naturalDisaster, String rejectCause, Date appointementDate, BigDecimal damagePercentage,String annualRevenues,String estimatedRefund ) {
         this.fieldAddress = fieldAddress;
         this.description = description;
         this.plant_production = plant_production;
@@ -80,6 +90,9 @@ public class DeclarationForm {
         this.naturalDisaster= naturalDisaster;
         this.rejectCause = rejectCause;
         this.appointementDate = appointementDate;
+        this.damagePercentage= damagePercentage;
+        this.annualRevenues=annualRevenues;
+        this.estimatedRefund=estimatedRefund;
 
     }
 
@@ -201,6 +214,30 @@ public class DeclarationForm {
 
     public void setAppointementDate(Date appointementDate) {
         this.appointementDate = appointementDate;
+    }
+
+    public BigDecimal getDamagePercentage() {
+        return damagePercentage;
+    }
+
+    public void setDamagePercentage(BigDecimal damagePercentage) {
+        this.damagePercentage = damagePercentage;
+    }
+
+    public String getAnnualRevenues() {
+        return annualRevenues;
+    }
+
+    public void setAnnualRevenues(String annualRevenues) {
+        this.annualRevenues = annualRevenues;
+    }
+
+    public String getEstimatedRefund() {
+        return estimatedRefund;
+    }
+
+    public void setEstimatedRefund(String estimatedRefund) {
+        this.estimatedRefund = estimatedRefund;
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -100,6 +101,28 @@ public class ReportsRestController {
 
         declarationForm.setStatus("Accepted");
         declarationForm.setAmount(amount);
+
+        declarationService.saveDeclaration(declarationForm,user_id);
+        return new ResponseEntity<>(declarationForm,HttpStatus.OK);
+    }
+
+    @PostMapping("damageReport/{declaration_id}")
+    public ResponseEntity<?> damageReport(@PathVariable int user_id, @PathVariable int declaration_id, @RequestParam Double damagePercentage, Model model){
+        DeclarationForm declarationForm = declarationDAO.getDeclaration(declaration_id);
+        User user = userDAO.getUserProfile(user_id);
+
+        double decimalValue = damagePercentage / 100.0;
+        // Create a BigDecimal with the decimal value
+        var percentage = BigDecimal.valueOf(decimalValue);
+
+        declarationForm.setDamagePercentage(percentage);
+
+        double fieldSize = Double.parseDouble(declarationForm.getFieldSize());
+        double annualRevenues = Double.parseDouble(declarationForm.getAnnualRevenues());
+
+        var estimation =  ( fieldSize * (declarationForm.getDamagePercentage().doubleValue() - 0.15) * annualRevenues * 0.88) /100;
+        String refund = String.valueOf(estimation);
+        declarationForm.setEstimatedRefund(refund);
 
         declarationService.saveDeclaration(declarationForm,user_id);
         return new ResponseEntity<>(declarationForm,HttpStatus.OK);

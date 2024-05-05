@@ -66,6 +66,8 @@ public class DeclarationRestController {
                 declarationInfo.put("naturalDisaster", declarationForm.getNaturalDisaster());
                 declarationInfo.put("rejectCause", declarationForm.getRejectCause());
                 declarationInfo.put("appointementDate", declarationForm.getAppointementDate());
+                declarationInfo.put("damagePercentage", declarationForm.getDamagePercentage());
+                declarationInfo.put("estimatedRefund", declarationForm.getEstimatedRefund());
 
                 result.add(declarationInfo);
             }
@@ -84,6 +86,8 @@ public class DeclarationRestController {
                 declarationInfo.put("naturalDisaster", declarationForm.getNaturalDisaster());
                 declarationInfo.put("rejectCause", declarationForm.getRejectCause());
                 declarationInfo.put("appointementDate", declarationForm.getAppointementDate());
+                declarationInfo.put("damagePercentage", declarationForm.getDamagePercentage());
+                declarationInfo.put("estimatedRefund", declarationForm.getEstimatedRefund());
 
                 result.add(declarationInfo);
             }
@@ -157,6 +161,7 @@ public class DeclarationRestController {
             newDeclarationForm.setFieldSize(declarationForm.getFieldSize());
             newDeclarationForm.setPlant_production(declarationForm.getPlant_production());
             newDeclarationForm.setNaturalDisaster(declarationForm.getNaturalDisaster());
+            newDeclarationForm.setAnnualRevenues(declarationForm.getAnnualRevenues());
 
             newDeclarationForm.setStatus("Pending");
 
@@ -173,6 +178,7 @@ public class DeclarationRestController {
             newDeclarationForm.setFieldSize(declarationForm.getFieldSize());
             newDeclarationForm.setPlant_production(declarationForm.getPlant_production());
             newDeclarationForm.setNaturalDisaster(declarationForm.getNaturalDisaster());
+            newDeclarationForm.setAnnualRevenues(declarationForm.getAnnualRevenues());
 
             newDeclarationForm.setStatus("Pending");
 
