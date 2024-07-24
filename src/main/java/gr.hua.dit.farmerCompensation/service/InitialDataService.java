@@ -131,6 +131,8 @@ public class InitialDataService {
                 declarationForm.setFieldAddress("Thiseos 56");
                 declarationForm.setFieldSize("189");
                 declarationForm.setPlant_production("Wheat,Corn");
+                declarationForm.setNaturalDisaster("Flood");
+                declarationForm.setAnnualRevenues("120000");
                 declarationForm.setStatus("Pending");
 
                 declarationForm.setSubmissionDate(getCurrentDate());

@@ -70,6 +70,7 @@ public class DeclarationForm {
     @Column(precision = 5, scale = 4)
     private BigDecimal damagePercentage;
 
+    @NotBlank
     @Pattern(regexp = "^[0-9]+(\\.[0-9]+)?$",message = "Amount in Euros")
     private String annualRevenues;
 
