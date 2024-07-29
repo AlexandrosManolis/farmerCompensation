@@ -1,0 +1,31 @@
+<declarationDetails xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Declaration Details</title>
+    <!-- Include any necessary head elements or stylesheets here -->
+</head>
+<body>
+
+<h2>Declaration Details</h2>
+
+<table>
+
+    <div>
+        <p><strong>ID:</strong> <span th:text="${declarationForm.id}"></span></p>
+        <p><strong>Submission Date:</strong> <span th:text="${declarationForm.submissionDate}"></span></p>
+        <p><strong>Damage Date:</strong> <span th:text="${declarationForm.damageDate}"></span></p>
+        <p><strong>Plant Production:</strong> <span th:text="${declarationForm.plant_production}"></span></p>
+        <p><strong>Field Size:</strong> <span th:text="${declarationForm.fieldSize}"></span></p>
+        <p><strong>Field Address:</strong> <span th:text="${declarationForm.fieldAddress}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${declarationForm.description}"></span></p>
+        <p><strong>Annual start production:</strong> <span th:text="${declarationForm.annualStartProduction}"></span></p>
+        <p><strong>Status:</strong> <span th:text="${declarationForm.status}"></span></p>
+        <p><strong>Amount:</strong> <span th:if="${declarationForm.status} == 'Accepted'" th:text="${declarationForm.amount}"></span></p>
+
+    </div>
+</table>
+
+<!-- Other body elements -->
+
+</body>
+</declarationDetails>

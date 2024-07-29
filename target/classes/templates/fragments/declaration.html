@@ -1,0 +1,173 @@
+<declaration xmlns:sec="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org">
+    <div th:if="${users}">
+    <div th:if="${ not#lists.isEmpty(declarationForm)}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <div sec:authorize="(hasRole('FARMER') and not hasRole('INSPECTOR'))">
+                <tr th:each="declaration : ${declarationForm}">
+                    <td th:text="${declaration.id}"></td>
+                    <td th:text="${declaration.description}"></td>
+                    <td th:if="${declaration.id}">
+                        <a class="btn btn-info" role="button" th:unless="${declaration.status} == 'Rejected' or ${declaration.status} == 'Accepted'" th:href="@{/declaration/{user_id}/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}">Edit</a>
+                        <a class="btn btn-info" role="button" th:href="@{/declaration/{user_id}/details/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}">Details</a>
+                        <a class="btn btn-danger" role="button" th:unless="${declaration.status} == 'Rejected' or ${declaration.status} == 'Accepted'" th:href="@{/declaration/{user_id}/delete/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}" onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
+                        <a>Status:</a>
+                        <button type="button" th:text="${declaration.status}" disabled></button>
+
+                    </td>
+                </tr>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                <tr th:each="declaration : ${declarationForm}">
+                    <td th:text="${declaration.id}"></td>
+                    <td th:text="${declaration.description}"></td>
+                    <td th:if="${declaration.id}">
+                        <a class="btn btn-info" role="button" th:unless="${declaration.status} == 'Rejected' or ${declaration.status} == 'Accepted'" th:href="@{/declaration/{user_id}/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}">Edit</a>
+                        <a class="btn btn-info" role="button" th:href="@{/declaration/{user_id}/details/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}">Details</a>
+                        <a class="btn btn-danger" role="button" th:href="@{/declaration/{user_id}/delete/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}" onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
+                        <a>Status:</a>
+                        <button type="button" th:text="${declaration.status}" disabled></button>
+
+                    </td>
+                </tr>
+            </div>
+            <div sec:authorize="(hasRole('INSPECTOR'))" >
+                <tr th:each="declaration : ${declarationForm}">
+                    <td th:text="${declaration.id}"></td>
+                    <td th:text="${declaration.description}"></td>
+                    <td th:if="${declaration.id}">
+
+                        <a class="btn btn-info" role="button" th:if="${#authentication.principal.username== users.email}" th:href="@{/declaration/{user_id}/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}">Edit</a>
+                        <a class="btn btn-info" role="button" th:if="${#authentication.principal.username== users.email}" th:href="@{/declaration/{user_id}/details/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}">Details</a>
+                        <a class="btn btn-danger" role="button"  th:if="${#authentication.principal.username== users.email}" th:href="@{/declaration/{user_id}/delete/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}" onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
+
+                        <a class="btn btn-info" role="button" th:href="@{/declaration/{user_id}/report/{declaration_id}(user_id=${users.id},declaration_id=${declaration.id})}">Report</a>
+
+                        <form action="#" th:action="@{'/declaration/' + ${user_id} + '/checkonsite/' + ${declaration.id}}" method="post">
+                            <button type="submit" class="btn btn-info" role="button" th:unless="${declaration.status} == 'Rejected' or ${declaration.status} == 'Accepted' or ${declaration.status} == 'Check on site'">Check on Site</button>
+                        </form>
+
+                        <form id="myForm" onsubmit="validateForm()"  th:action="@{'/declaration/' + ${user_id} + '/acceptReport/' + ${declaration.id}}" method="post">
+
+                            <label th:unless="${declaration.status} == 'Rejected' or ${declaration.status} == 'Accepted'">Refund Amount:</label>
+                            <input type="text" id="amount" name="amount" onkeyup="EnableDisable(this)" th:unless="${declaration.status} == 'Rejected' or ${declaration.status} == 'Accepted' "/>
+                            <button id="acceptButton" type="submit" value="Submit" role="button" class="btn btn-info" th:unless="${declaration.status} == 'Rejected' or ${declaration.status} == 'Accepted'" onclick="submitForm()" disabled="disabled">Accept</button>
+                        </form>
+
+                        <script type="text/javascript">
+                            function submitForm() {
+                                var textBoxValue = document.getElementById("amount").value;
+
+                                var form = document.getElementById("myForm");
+                                var actionUrl = form.getAttribute("action");
+
+                                var xhr = new XMLHttpRequest();
+                                xhr.open("POST", actionUrl, true);
+                                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                                // You may need to customize the data format based on your server-side expectations
+                                var data = "amount=" + encodeURIComponent(textBoxValue);
+
+                                xhr.onreadystatechange = function () {
+                                    if (xhr.readyState === 4 && xhr.status === 200) {
+                                        // Handle the response from the server if needed
+                                        console.log(xhr.responseText);
+                                    }
+                                };
+
+                                xhr.send(data);
+                            }
+                        </script>
+
+
+                        <form action="#" th:action="@{'/declaration/' + ${user_id} + '/rejectReport/' + ${declaration.id}}" method="post">
+                            <button type="submit" class="btn btn-info" role="button" th:unless="${declaration.status} == 'Rejected' or ${declaration.status} == 'Accepted'">Reject</button>
+
+                        </form>
+
+                        <script type="text/javascript">
+                            function EnableDisable(amount) {
+                                //Reference the Button.
+                                var btnSubmit = document.getElementById("acceptButton");
+
+                                //Verify the TextBox value.
+                                if (amount.value.trim() != "") {
+                                    //Enable the TextBox when TextBox has value.
+                                    btnSubmit.disabled = false;
+                                } else {
+                                    //Disable the TextBox when TextBox is empty.
+                                    btnSubmit.disabled = true;
+                                }
+                            };
+                        </script>
+
+                        <a>Current Status:</a>
+                        <button type="button" th:text="${declaration.status}" disabled></button>
+                    </td>
+                </tr>
+            </div>
+
+            </tbody>
+        </table>
+
+    </div>
+        <div th:if="${ #lists.isEmpty(declarationForm)}">
+            No Declarations found!
+        </div>
+        <div sec:authorize="(hasRole('ADMIN') or hasRole('FARMER') and not hasRole('INSPECTOR'))">
+            <a class="btn btn-primary" role="button" th:href="@{/declaration/{id}/new(id=${users.id})}">Create new Declaration</a>
+        </div>
+        <div sec:authorize="(hasRole('INSPECTOR'))" th:if="${#authentication.principal.username== users.email}">
+            <a class="btn btn-primary" role="button" th:href="@{/declaration/{id}/new(id=${users.id})}">Create new Declaration</a>
+        </div>
+
+    </div>
+
+
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js">
+
+        function deleteDeclaration(button) {
+            var userId = $(button).attr('th:user_id');
+            var declarationId = $(button).attr('th:declaration_id');
+
+            $.ajax({
+                type: 'DELETE',
+                url: '/declaration/' + userId + '/' + declarationId,
+                success: function (data) {
+                    // Optionally, handle success response
+                    console.log('Declaration deleted successfully');
+                    // You may want to update the UI or perform additional actions here
+                },
+                error: function (error) {
+                    // Handle error response
+                    console.error('Error deleting declaration', error);
+                }
+            });
+        }
+        function validateForm() {
+            var refundAmount = document.getElementById("amount").value;
+
+            if (refundAmount.trim() === "") {
+                // If the amount is empty, disable the form submission
+                alert("Refund Amount cannot be empty. Please enter a value.");
+                return false;
+            } else {
+                // If the amount is not empty, enable the form submission
+                document.getElementById("acceptButton").disabled = false;
+                return true;
+            }
+        }
+
+    </script>
+</declaration>

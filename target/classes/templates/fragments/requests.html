@@ -1,0 +1,50 @@
+<requests xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:if="${ not#lists.isEmpty(requestForRoles)}">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <span th:each="user : ${usersWithRoleRequests}">
+
+                <tr th:each="request : ${requestForRoles}" th:if="${request.user.id == user.id}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+
+                <td th:if="${user.id}">
+                    <a class="btn btn-info" th:href="@{/users/details/{id}(id=${user.id})}">Details</a>
+
+                    <form action="#" th:action="@{'/users/requests/accept/' + ${user.id} +'/'+ ${request.id}}" method="post">
+                            <button type="submit" class="btn btn-success" role="button" th:unless="${request.status} == 'Rejected' or ${request.status} == 'Approved'">Approve</button>
+                    </form>
+
+                    <form action="#" th:action="@{'/users/requests/reject/' + ${user.id} +'/'+ ${request.id}}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-danger" role="button" th:unless="${request.status} == 'Rejected' or ${request.status} == 'Approved'">Reject</button>
+                    </form>
+
+                    <a>Status:</a>
+                    <button type="button" th:text="${request.status}" disabled></button>
+                    <a>User wants to become: </a>
+                    <button th:text="${request.role != null ? request.role.name : 'N/A'}" disabled></button>
+                </td>
+
+                    </tr>
+
+        </span>
+        </tbody>
+    </table>
+
+    </div>
+    <div th:if="${ #lists.isEmpty(requestForRoles)}">
+        No Request found!
+    </div>
+</requests>
