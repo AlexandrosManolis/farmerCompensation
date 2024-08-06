@@ -54,7 +54,7 @@ public class SecurityConfig{
                                                 .authenticationEntryPoint(unauthorizedHandler))
                                         .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/v3/api-docs/**", "/v2/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                                                .requestMatchers("/api/auth/**").permitAll()
+                                                .requestMatchers("/api/auth/**","/actuator/health/**").permitAll()
                                                 .requestMatchers("/api/admin/users/**").hasRole("ADMIN")
                                                 .requestMatchers("/api/declaration/{user_id}/**").hasAnyRole("ADMIN", "INSPECTOR", "FARMER")
                                                 .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "INSPECTOR", "FARMER")
