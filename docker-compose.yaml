@@ -43,6 +43,8 @@ services:
   frontend:
     build:
       context: https://github.com/AlexandrosManolis/farmerCompensationFrontend.git#main
+      args:
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL}
     ports:
       - 9000:80
     depends_on:
