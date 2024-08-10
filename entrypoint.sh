@@ -2,7 +2,7 @@
 #!/bin/bash
 
 # Fetch the public IP address
-IP=$(curl -s http://checkip.amazonaws.com/)
+IP=$(curl ifconfig.me)
 
 # Export the environment variable
 export VITE_BACKEND_URL="http://$IP:9090"
