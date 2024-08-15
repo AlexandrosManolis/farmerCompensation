@@ -26,7 +26,7 @@ class FarmerCompensationApplicationTests {
 	@Test
 	public void testCreateUser() throws Exception {
 		// Arrange
-		String userJson = "{\"username\":\"apiuser\",\"email\":\"api@hua.gr\",\"password\":\"pass123\"}";
+		String userJson = "{\"username\":\"apiuser\",\"email\":\"api@hua.gr\",\"password\":\"pass123\",\"afm\":\"111222333\",\"full_name\":\"Api User\",\"address\":\"Omirou 9\",\"identity\":\"AN111222\"}";
 
 
 		// Act
