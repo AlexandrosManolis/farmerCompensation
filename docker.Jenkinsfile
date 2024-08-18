@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        EMAIL_TO = "" // your email 
+        // EMAIL_TO = "" // your email 
         DOCKER_TOKEN = credentials('docker-push-secret')
         DOCKER_USER = '' // your username
         DOCKER_SERVER = 'ghcr.io'
@@ -50,10 +50,10 @@ pipeline {
          }
     }
 
-    post {
-        always {
-            mail  to: "" // your email 
-            , body: "Project ${env.JOB_NAME} <br>, Build status ${currentBuild.currentResult} <br> Build Number: ${env.BUILD_NUMBER} <br> Build URL: ${env.BUILD_URL}", subject: "JENKINS: Project name -> ${env.JOB_NAME}, Build -> ${currentBuild.currentResult}"
-        }
-    }
+    // post {
+    //     always {
+    //         mail  to: "" // your email 
+    //         , body: "Project ${env.JOB_NAME} <br>, Build status ${currentBuild.currentResult} <br> Build Number: ${env.BUILD_NUMBER} <br> Build URL: ${env.BUILD_URL}", subject: "JENKINS: Project name -> ${env.JOB_NAME}, Build -> ${currentBuild.currentResult}"
+    //     }
+    // }
 }
