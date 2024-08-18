@@ -8,7 +8,7 @@ pipeline {
     environment {
         // EMAIL_TO = "" // your email 
         DOCKER_TOKEN = credentials('docker-push-secret')
-        DOCKER_USER = '' // your username
+        DOCKER_USER = 'alexandrosmanolis' // your username
         DOCKER_SERVER = 'ghcr.io'
         DOCKER_PREFIX = 'ghcr.io/alexandrosmanolis/farmercompensation-spring'
     }
