@@ -8,7 +8,7 @@ pipeline {
     environment {
         // EMAIL_TO = "" // your email 
         DOCKER_TOKEN = credentials('docker-push-secret')
-        DOCKER_USER = 'alexandrosmanolis' // your username
+        DOCKER_USER = credentials('docker-username')
         DOCKER_SERVER = 'ghcr.io'
         DOCKER_PREFIX = 'ghcr.io/alexandrosmanolis/farmercompensation-spring'
     }
@@ -24,7 +24,7 @@ pipeline {
                 sh './mvnw test'
             }
         }
-        // For later
+        
         stage('Docker build and push') {
             steps {
                 sh '''
