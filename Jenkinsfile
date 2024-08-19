@@ -35,7 +35,7 @@ pipeline {
                     servers="azure-db-server gcloud-app-server frontend-vm"
 
                     for server in $servers; do
-                        ssh-keyscan -H $(grep -A 1 "$server:" ~/workspace/ansible/hosts.yaml | grep "ansible_host" | awk "{print \$2}") >> ~/.ssh/known_hosts
+                        ssh-keyscan -H "$(grep -A 1 '$server:' ~/workspace/ansible/hosts.yaml | grep 'ansible_host' | awk '{print $2}' | xargs -I {} sh -c 'grep -A 1 -w "Host {}" ~/.ssh/config | grep -i "HostName\|Hostname" | awk "{print \$2}"')" >> ~/.ssh/known_hosts
                     done
                 '''
             }

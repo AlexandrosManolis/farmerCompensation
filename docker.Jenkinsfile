@@ -44,7 +44,7 @@ pipeline {
         stage('Add docker-server to known-hosts and install project with docker compose') {
                     steps {
                         sh '''
-                            ssh-keyscan -H $(grep -A 1 "docker-server:" ~/workspace/ansible/hosts.yaml | grep "ansible_host" | awk "{print \$2}") >> ~/.ssh/known_hosts
+                            ssh-keyscan -H "$(grep -A 1 'docker-server:' ~/workspace/ansible/hosts.yaml | grep 'ansible_host' | awk '{print $2}' | xargs -I {} sh -c 'grep -A 1 -w "Host {}" ~/.ssh/config | grep -i "HostName\|Hostname" | awk "{print \$2}"')" >> ~/.ssh/known_hosts
                             export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
                             ansible-playbook -i ~/workspace/ansible/hosts.yaml -l docker-server ~/workspace/ansible/playbooks/spring-vue-docker.yaml
                         '''
