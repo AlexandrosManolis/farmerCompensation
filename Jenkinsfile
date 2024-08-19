@@ -28,6 +28,18 @@ pipeline {
                 '''
             }
         }
+        stage('Add Servers to known_hosts') {
+            steps {
+                sh '''
+                    # List of servers to add to known_hosts
+                    servers="azure-db-server gcloud-app-server frontend-vm"
+
+                    for server in $servers; do
+                        ssh-keyscan -H $(grep -A 1 "$server:" ~/workspace/ansible/hosts.yaml | grep "ansible_host" | awk "{print \$2}") >> ~/.ssh/known_hosts
+                    done
+                '''
+            }
+        }
         stage('Install postgres') {
             steps {
                 sh '''
