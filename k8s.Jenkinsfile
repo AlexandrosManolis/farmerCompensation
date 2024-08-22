@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        EMAIL_TO = "" // your email
+        EMAIL_TO = credentials('my-email')
         DOCKER_TOKEN = credentials('docker-push-secret')
         DOCKER_USER = credentials('docker-username')
         DOCKER_SERVER = 'ghcr.io'
@@ -35,6 +35,33 @@ pipeline {
         //         '''
         //     }
         // }
+        
+        stage('Create .dockerconfig.json') {
+            steps {
+                script {
+                    // Create the content of .dockerconfig.json
+                    def dockerConfigContent = """
+                    {
+                        "auths": {
+                            "https://${DOCKER_SERVER}": {
+                                "username": "${DOCKER_USER}",
+                                "password": "${DOCKER_TOKEN}",
+                                "email": "${EMAIL_TO}",
+                                "auth": "${"${DOCKER_USER}:${DOCKER_TOKEN}".bytes.encodeBase64().toString()}"
+                            }
+                        }
+                    }
+                    """
+
+                    // Define the path for .dockerconfig.json
+                    def dockerConfigPath = "${WORKSPACE}/k8s-application/k8s/.dockerconfig.json"
+
+                    // Write the content to .dockerconfig.json
+                    writeFile file: dockerConfigPath, text: dockerConfigContent
+                }
+            }
+        }
+
         stage('deploy to k8s') {
             steps {
                 sh '''

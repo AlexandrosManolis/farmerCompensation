@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    // environment {
-    //     EMAIL_TO = "enter-your-email" //your email
-    // }
+    environment {
+        EMAIL_TO = credentials('my-email')
+    }
 
     stages {
         stage('Checkout') {
