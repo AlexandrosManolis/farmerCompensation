@@ -36,7 +36,7 @@ pipeline {
         //     }
         // }
 
-        sstage('Create .dockerconfig.json') {
+        stage('Create .dockerconfig.json') {
             steps {
                 script {
                     // Generate the Base64-encoded auth string using a shell command
