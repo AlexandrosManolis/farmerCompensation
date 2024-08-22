@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: "tsadimas-spring.ddns.net"
+  - host: "our-host.ddns.net"
     http:
       paths:
       - path: /

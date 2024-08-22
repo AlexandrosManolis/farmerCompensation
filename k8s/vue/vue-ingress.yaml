@@ -4,7 +4,7 @@ metadata:
   name: vue-ingress
 spec:
   rules:
-  - host: "tsadimas-spring.ddns.net"
+  - host: "our-host.ddns.net"
     http:
       paths:
       - path: /
