@@ -64,6 +64,9 @@ pipeline {
 
                     // Write the content to .dockerconfig.json
                     writeFile file: dockerConfigPath, text: dockerConfigContent
+
+                    // Print the path to the console
+                    echo "The .dockerconfig.json file has been created at: ${dockerConfigPath}"
                 }
             }
         }
