@@ -42,8 +42,20 @@ pipeline {
                     TAG=$HEAD_COMMIT-$BUILD_ID
                     # if we had multiple configurations in kubeconfig file, we should select the correct one
                     # kubectl config use-context devops
+                    
+                    cd
+                    
+                    ./kubectl create -f ~/workspace/k8s-application/k8s/postgres/postgres-deployment.yaml
+                    ./kubectl create -f ~/workspace/k8s-application/k8s/spring/spring-deployment.yaml
+                    ./kubectl create -f ~/workspace/k8s-application/k8s/vue/vue-deployment.yaml
+
+                    ./kubectl set image deployment/postgres-deployment postgres=$DOCKER_PREFIX:$TAG
                     ./kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX:$TAG
-                    ./kubectl rollout status deployment spring-deployment --watch --timeout=2m
+                    ./kubectl set image deployment/vue-deployment vue=$DOCKER_PREFIX:$TAG
+                    
+                    ./kubectl rollout status deployment/postgres-deployment --watch --timeout=2m
+                    ./kubectl rollout status deployment/spring-deployment --watch --timeout=2m
+                    ./kubectl rollout status deployment/vue-deployment --watch --timeout=2m
                 '''
             }
         }
