@@ -45,9 +45,17 @@ pipeline {
                     
                     cd
                     
+                    ./kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-pvc.yaml
                     ./kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-deployment.yaml
+                    ./kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-svc.yaml
+
                     ./kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-deployment.yaml
+                    ./kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-ingress.yaml
+                    ./kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-svc.yaml
+                    
                     ./kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-deployment.yaml
+                    ./kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-ingress.yaml
+                    ./kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-svc.yaml
 
                     ./kubectl set image deployment/postgres-deployment postgres=$DOCKER_PREFIX:$TAG
                     ./kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX:$TAG
