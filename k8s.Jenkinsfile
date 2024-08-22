@@ -42,8 +42,8 @@ pipeline {
                     TAG=$HEAD_COMMIT-$BUILD_ID
                     # if we had multiple configurations in kubeconfig file, we should select the correct one
                     # kubectl config use-context devops
-                    ./kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX:$TAG
-                    ./kubectl rollout status deployment spring-deployment --watch --timeout=2m
+                    kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX:$TAG
+                    kubectl rollout status deployment spring-deployment --watch --timeout=2m
                 '''
             }
         }
