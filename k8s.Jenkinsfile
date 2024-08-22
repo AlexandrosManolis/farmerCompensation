@@ -60,7 +60,7 @@ pipeline {
                     """
 
                     // Define the path for .dockerconfig.json
-                    def dockerConfigPath = "${WORKSPACE}/k8s-application/k8s/.dockerconfig.json"
+                    def dockerConfigPath = "${WORKSPACE}/k8s/.dockerconfig.json"
 
                     // Write the content to .dockerconfig.json
                     writeFile file: dockerConfigPath, text: dockerConfigContent
