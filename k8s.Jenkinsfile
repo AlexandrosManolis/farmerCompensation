@@ -35,10 +35,16 @@ pipeline {
         //         '''
         //     }
         // }
-        
-        stage('Create .dockerconfig.json') {
+
+        sstage('Create .dockerconfig.json') {
             steps {
                 script {
+                    // Generate the Base64-encoded auth string using a shell command
+                    def authString = sh(
+                        script: "echo -n '${DOCKER_USER}:${DOCKER_TOKEN}' | base64",
+                        returnStdout: true
+                    ).trim()
+
                     // Create the content of .dockerconfig.json
                     def dockerConfigContent = """
                     {
@@ -47,7 +53,7 @@ pipeline {
                                 "username": "${DOCKER_USER}",
                                 "password": "${DOCKER_TOKEN}",
                                 "email": "${EMAIL_TO}",
-                                "auth": "${"${DOCKER_USER}:${DOCKER_TOKEN}".bytes.encodeBase64().toString()}"
+                                "auth": "${authString}"
                             }
                         }
                     }
