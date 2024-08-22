@@ -65,6 +65,13 @@ pipeline {
                     // Write the content to .dockerconfig.json
                     writeFile file: dockerConfigPath, text: dockerConfigContent
 
+                    // Create or update the Kubernetes secret
+                    sh '''
+                    ./kubectl create secret docker registry-credentials \
+                        --from-file=.dockerconfigjson=${WORKSPACE}/k8s/.dockerconfig.json \
+                        --dry-run=client -o yaml | ./kubectl apply -f -
+                    '''
+
                     // Print the path to the console
                     echo "The .dockerconfig.json file has been created at: ${dockerConfigPath}"
                 }
