@@ -22,5 +22,5 @@ spec:
               name: vue
   tls:
   - hosts:
-    - tsadimas-spring.ddns.net
+    - farmerCompensation.ddns.net
     secretName: spring-production-certificate

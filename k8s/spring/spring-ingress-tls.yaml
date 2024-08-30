@@ -22,5 +22,5 @@ spec:
               name: spring
   tls:
   - hosts:
-    - tsadimas-spring.ddns.net
+    - farmerCompensation.ddns.net
     secretName: spring-production-certificate
