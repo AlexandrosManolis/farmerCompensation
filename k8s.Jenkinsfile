@@ -81,7 +81,7 @@ pipeline {
             steps {
                 sh '''
                     HEAD_COMMIT=$(git rev-parse --short HEAD)
-                    TAG=$HEAD_COMMIT-$BUILD_ID
+                    TAG=latest
                     # if we had multiple configurations in kubeconfig file, we should select the correct one
                     # kubectl config use-context devops
                     
