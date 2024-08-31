@@ -41,7 +41,7 @@ pipeline {
                 script {
                     // Generate the Base64-encoded auth string using a shell command
                     def authString = sh(
-                        script: "echo -n '${DOCKER_USER}:${DOCKER_TOKEN}' | base64",
+                        script: "echo -n '${DOCKER_USER}:${DOCKER_TOKEN}' | base64 -w 0",
                         returnStdout: true
                     ).trim()
 
