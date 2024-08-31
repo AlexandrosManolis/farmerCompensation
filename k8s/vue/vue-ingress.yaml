@@ -4,7 +4,7 @@ metadata:
   name: vue-ingress
 spec:
   rules:
-  - host: "farmerCompensation.ddns.net"
+  - host: "farmercompensation.ddns.net"
     http:
       paths:
       - path: /

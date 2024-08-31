@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: "farmerCompensation.ddns.net"
+  - host: "farmercompensation.ddns.net"
     http:
       paths:
       - path: /
@@ -22,5 +22,5 @@ spec:
               name: spring
   tls:
   - hosts:
-    - farmerCompensation.ddns.net
+    - farmercompensation.ddns.net
     secretName: spring-production-certificate
