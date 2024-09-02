@@ -10,7 +10,8 @@ pipeline {
         DOCKER_TOKEN = credentials('docker-push-secret')
         DOCKER_USER = credentials('docker-username')
         DOCKER_SERVER = 'ghcr.io'
-        DOCKER_PREFIX = 'ghcr.io/alexandrosmanolis/farmercompensation-spring'
+        DOCKER_PREFIX_BACKEND = 'ghcr.io/alexandrosmanolis/farmercompensation-spring'
+        DOCKER_PREFIX_FRONTEND = 'ghcr.io/zenxaris03/devops-vue'
     }
 
     stages {
@@ -99,9 +100,9 @@ pipeline {
                     kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-ingress.yaml
                     kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-svc.yaml
 
-                    kubectl set image deployment/postgres-deployment postgres=$DOCKER_PREFIX:$TAG
-                    kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX:$TAG
-                    kubectl set image deployment/vue-deployment vue=$DOCKER_PREFIX:$TAG
+                    #kubectl set image deployment/postgres-deployment postgres=$DOCKER_PREFIX:$TAG
+                    kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX_BACKEND:$TAG
+                    kubectl set image deployment/vue-deployment vue=$DOCKER_PREFIX_FRONTEND:$TAG
                     
                     #./kubectl rollout status deployment/postgres-deployment --watch --timeout=2m
                     #./kubectl rollout status deployment/spring-deployment --watch --timeout=2m
