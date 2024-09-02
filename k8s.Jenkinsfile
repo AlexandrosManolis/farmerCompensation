@@ -93,7 +93,7 @@ pipeline {
                     kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-svc.yaml
 
                     kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-deployment.yaml
-                    kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-ingress.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-ingress-tls.yaml
                     kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-svc.yaml
                     
                     kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-deployment.yaml
