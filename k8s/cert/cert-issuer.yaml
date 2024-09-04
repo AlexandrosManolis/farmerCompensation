@@ -1,7 +1,6 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  # different name
   name: farmercompensationencrypt-prod
   namespace: default
 spec:
@@ -11,7 +10,7 @@ spec:
     email: it2021132@hua.gr
     privateKeySecretRef:
       # storing key material for the ACME account in dedicated secret
-      name: account-key-prod
+      name: farmercompensation-account-key
     solvers:
     - http01:
        ingress:
