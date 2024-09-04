@@ -87,6 +87,10 @@ pipeline {
                     # kubectl config use-context devops
                     
                     cd
+
+                    # Apply the cert-issuer configuration
+                    kubectl apply -f ~/workspace/k8s-application/k8s/cert-manager/cert-issuer.yaml
+
                     
                     kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-pvc.yaml
                     kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-deployment.yaml

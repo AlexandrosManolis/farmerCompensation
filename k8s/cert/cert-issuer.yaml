@@ -8,7 +8,7 @@ spec:
   acme:
     # now pointing to Let's Encrypt production API
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: tsadimas@gmail.com
+    email: it2021132@hua.gr
     privateKeySecretRef:
       # storing key material for the ACME account in dedicated secret
       name: account-key-prod
