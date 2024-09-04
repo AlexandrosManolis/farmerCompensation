@@ -88,6 +88,9 @@ pipeline {
                     
                     cd
 
+                    # Install cert-manager
+                    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
+
                     # Apply the cert-issuer configuration
                     kubectl apply -f ~/workspace/k8s-application/k8s/cert/cert-issuer.yaml
 
