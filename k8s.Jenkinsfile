@@ -15,6 +15,15 @@ pipeline {
     }
 
     stages {
+        stage('Test kubectl') {
+            steps {
+                sh '''
+                echo $PATH
+                which kubectl
+                kubectl version --client
+                '''
+            }
+        }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'git@github.com:AlexandrosManolis/farmerCompensation.git'
