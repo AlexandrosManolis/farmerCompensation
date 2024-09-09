@@ -68,7 +68,7 @@ pipeline {
 
                     // Create or update the Kubernetes secret
                     sh '''
-                    kubectl create secret docker-registry registry-credentials --from-file=.dockerconfigjson=${WORKSPACE}/k8s/.dockerconfig.json --dry-run=client -o yaml | kubectl apply -f -
+                    kubectl create secret docker-registry registry-credentials --from-file=.dockerconfigjson=k8s/.dockerconfig.json --dry-run=client -o yaml | kubectl apply -f -
                     '''
 
                     // Print the path to the console
@@ -90,7 +90,7 @@ pipeline {
                     # Install cert-manager
                     kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 
-                    cd workspace/k8s-application/k8s
+                    cd ~/workspace/k8s-application/k8s
 
                     # Apply the cert-issuer configuration
                     kubectl apply -f cert/cert-issuer.yaml
