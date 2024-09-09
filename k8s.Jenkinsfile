@@ -15,15 +15,6 @@ pipeline {
     }
 
     stages {
-        stage('Test kubectl') {
-            steps {
-                sh '''
-                echo $PATH
-                which kubectl
-                kubectl version --client
-                '''
-            }
-        }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'git@github.com:AlexandrosManolis/farmerCompensation.git'
@@ -77,7 +68,8 @@ pipeline {
 
                     // Create or update the Kubernetes secret
                     sh '''
-                    kubectl create secret docker-registry registry-credentials --from-file=.dockerconfigjson=k8s/.dockerconfig.json --dry-run=client -o yaml | kubectl apply -f -
+                    cd
+                    kubectl create secret docker-registry registry-credentials --from-file=.dockerconfigjson=${WORKSPACE}/k8s/.dockerconfig.json --dry-run=client -o yaml | kubectl apply -f -
                     '''
 
                     // Print the path to the console
@@ -99,23 +91,21 @@ pipeline {
                     # Install cert-manager
                     kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 
-                    cd ~/workspace/k8s-application/k8s
-
                     # Apply the cert-issuer configuration
-                    kubectl apply -f cert/cert-issuer.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/cert/cert-issuer.yaml
 
                     
-                    kubectl apply -f postgres/postgres-pvc.yaml
-                    kubectl apply -f postgres/postgres-deployment.yaml
-                    kubectl apply -f postgres/postgres-svc.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-pvc.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-deployment.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/postgres/postgres-svc.yaml
 
-                    kubectl apply -f spring/spring-deployment.yaml
-                    kubectl apply -f spring/spring-ingress-tls.yaml
-                    kubectl apply -f spring/spring-svc.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-deployment.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-ingress-tls.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/spring/spring-svc.yaml
                     
-                    kubectl apply -f vue/vue-deployment.yaml
-                    kubectl apply -f vue/vue-ingress-tls.yaml
-                    kubectl apply -f vue/vue-svc.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-deployment.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-ingress-tls.yaml
+                    kubectl apply -f ~/workspace/k8s-application/k8s/vue/vue-svc.yaml
 
                     #kubectl set image deployment/postgres-deployment postgres=$DOCKER_PREFIX:$TAG
                     kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX_BACKEND:$TAG
