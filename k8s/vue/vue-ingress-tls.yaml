@@ -20,7 +20,18 @@ spec:
             name: vue-svc
             port:
               name: vue
+  - host: "our-host.ddns.net"
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: vue-svc
+            port:
+              name: vue
   tls:
   - hosts:
     - farmercompensation.ddns.net
+    - our-host.ddns.net
     secretName: spring-production-certificate

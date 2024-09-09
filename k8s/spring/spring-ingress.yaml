@@ -14,3 +14,13 @@ spec:
             name: spring
             port:
               name: spring
+  - host: "our-host.ddns.net"
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: spring
+            port:
+              name: spring
