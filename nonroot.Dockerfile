@@ -9,6 +9,7 @@ RUN ./mvnw  package -Dmaven.test.skip
 FROM openjdk:19-jdk-alpine3.16
 RUN apk update && apk add curl
 WORKDIR /app
+
 # Set non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
