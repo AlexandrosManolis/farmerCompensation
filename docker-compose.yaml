@@ -34,7 +34,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/farmers
       - SPRING_DATASOURCE_USERNAME=dbuser
       - SPRING_DATASOURCE_PASSWORD=pass123
-      - SPRING_MAIL_HOST=${SPRING_IP}
+      - SPRING_MAIL_HOST=mailhog
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
       interval: 30s
@@ -55,8 +55,8 @@ services:
   mailhog:
     image: mailhog/mailhog
     ports:
-      - "1025:1025"   # SMTP port
-      - "8025:8025"   # Web UI
+      - "${SPRING_IP}:1025:1025"   # SMTP port
+      - "${SPRING_IP}:8025:8025"   # Web UI
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8025"]
       interval: 30s
