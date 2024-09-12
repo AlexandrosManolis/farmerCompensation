@@ -19,20 +19,20 @@ spec:
       - name:  spring
         image:  ghcr.io/alexandrosmanolis/farmercompensation-spring:latest
         imagePullPolicy: Always
-        livenessProbe:
-          httpGet:
-            path: "/actuator/health/liveness"
-            port: 9090
-          failureThreshold: 20
-          periodSeconds: 10
-          initialDelaySeconds: 30
-        readinessProbe:
-            httpGet:
-              path: "/actuator/health/readiness"
-              port: 9090
-            failureThreshold: 10
-            periodSeconds: 10
-            initialDelaySeconds: 30
+        # livenessProbe:
+        #   httpGet:
+        #     path: "/actuator/health/liveness"
+        #     port: 9090
+        #   failureThreshold: 20
+        #   periodSeconds: 10
+        #   initialDelaySeconds: 30
+        # readinessProbe:
+        #     httpGet:
+        #       path: "/actuator/health/readiness"
+        #       port: 9090
+        #     failureThreshold: 10
+        #     periodSeconds: 10
+        #     initialDelaySeconds: 30
         resources:
           requests:
             cpu: 200m
