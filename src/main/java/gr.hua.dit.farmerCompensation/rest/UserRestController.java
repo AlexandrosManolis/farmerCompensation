@@ -23,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import gr.hua.dit.farmerCompensation.service.EmailService;
+
 import java.util.*;
 
 @RestController
@@ -56,6 +58,9 @@ public class UserRestController {
 
     @Autowired
     BCryptPasswordEncoder encoder;
+
+    @Autowired
+    private EmailService emailService;
 
     //show user accordingly the role of the authenticated user
     @GetMapping("")
@@ -173,6 +178,9 @@ public class UserRestController {
     @Transactional
     @PostMapping("edit/{user_id}")
     public ResponseEntity<?> saveUser(@PathVariable Integer user_id, @RequestBody User user) {
+
+        emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");    
+
         User the_user = (User) userService.getUser(user_id);
         User editedUser = userDAO.getUserProfile(user_id);
         //validations about user
