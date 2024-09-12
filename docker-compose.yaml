@@ -33,7 +33,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/farmers
       - SPRING_DATASOURCE_USERNAME=dbuser
-      - SPRING_DATASOURCE_PASSWORD=pass123
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_IP}
       - SPRING_MAIL_HOST=mailhog
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
