@@ -20,6 +20,17 @@ services:
     volumes:
       - 'dslabdb:/var/lib/postgresql/data/'
 
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8025"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
   spring:
     image: sp
     build:
@@ -52,18 +63,7 @@ services:
       - 9000:80
     depends_on:
       spring:
-        condition: service_healthy
-  
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - "1025:1025"   # SMTP port
-      - "8025:8025"   # Web UI
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8025"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
+        condition: service_healthy    
 
 volumes:
   dslabdb:
