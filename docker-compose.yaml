@@ -26,10 +26,10 @@ services:
       - 1025:1025
       - 8025:8025
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8025"]
+      test: ["CMD", "curl", "-f", "http://mailhog:8025"]
       interval: 30s
-      timeout: 60s
-      retries: 5
+      timeout: 30s
+      retries: 3
 
   spring:
     image: sp
