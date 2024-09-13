@@ -57,8 +57,8 @@ services:
   mailhog:
     image: mailhog/mailhog
     ports:
-      - "${SPRING_IP}:1025:1025"   # SMTP port
-      - "${SPRING_IP}:8025:8025"   # Web UI
+      - "1025:1025"   # SMTP port
+      - "8025:8025"   # Web UI
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8025"]
       interval: 30s
