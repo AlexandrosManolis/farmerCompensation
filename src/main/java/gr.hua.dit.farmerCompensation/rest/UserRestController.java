@@ -65,6 +65,9 @@ public class UserRestController {
     //show user accordingly the role of the authenticated user
     @GetMapping("")
     public ResponseEntity<?> showUser(){
+
+        emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userRole = userService.getUserRole();
 
@@ -178,8 +181,6 @@ public class UserRestController {
     @Transactional
     @PostMapping("edit/{user_id}")
     public ResponseEntity<?> saveUser(@PathVariable Integer user_id, @RequestBody User user) {
-
-        emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");    
 
         User the_user = (User) userService.getUser(user_id);
         User editedUser = userDAO.getUserProfile(user_id);
