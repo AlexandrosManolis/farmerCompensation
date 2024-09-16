@@ -66,8 +66,6 @@ public class UserRestController {
     @GetMapping("")
     public ResponseEntity<?> showUser(){
 
-        emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userRole = userService.getUserRole();
 
@@ -97,7 +95,7 @@ public class UserRestController {
                         "username", userProfileUsername,
                         "email", userProfileEmail
                 );
-
+                emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
                 return new ResponseEntity<>(responseMap, HttpStatus.OK);
                 //if user's role is inspector take his profile and all the users with declaration
             } else if (userRole.equals("ROLE_INSPECTOR") ) {
@@ -125,11 +123,12 @@ public class UserRestController {
                     user1.setEmail(userProfileEmail);
                     userList.add(user1);
                 }
-
+                emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
                 return new ResponseEntity<>(userList, HttpStatus.OK);
             //if user has role admin show up all the users
             }else if(userRole.equals("ROLE_ADMIN")){
                     List<User> users = userService.getUsers();
+                    emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
                     return new ResponseEntity<>(users, HttpStatus.OK);
 
             }else {

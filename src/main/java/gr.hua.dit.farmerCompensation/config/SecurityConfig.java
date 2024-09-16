@@ -42,8 +42,8 @@ public class SecurityConfig{
                 List.of("Authorization", "Cache-Control", "Content-Type"));
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173"));
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:9000"));
-        corsConfiguration.setAllowedOrigins(List.of("http://146.148.15.100:1025"));
-        corsConfiguration.setAllowedOrigins(List.of("http://146.148.15.100:8025"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:1025"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:8025"));
         corsConfiguration
                 .setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
         corsConfiguration.setAllowCredentials(true);
