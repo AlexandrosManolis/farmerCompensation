@@ -13,7 +13,7 @@ public class MailConfig {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("localhost");
+        mailSender.setHost("mailhog");
         mailSender.setPort(1025);
 
         Properties props = mailSender.getJavaMailProperties();
