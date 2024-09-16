@@ -95,7 +95,7 @@ public class UserRestController {
                         "username", userProfileUsername,
                         "email", userProfileEmail
                 );
-                emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
+
                 return new ResponseEntity<>(responseMap, HttpStatus.OK);
                 //if user's role is inspector take his profile and all the users with declaration
             } else if (userRole.equals("ROLE_INSPECTOR") ) {
@@ -123,12 +123,12 @@ public class UserRestController {
                     user1.setEmail(userProfileEmail);
                     userList.add(user1);
                 }
-                emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
+
                 return new ResponseEntity<>(userList, HttpStatus.OK);
             //if user has role admin show up all the users
             }else if(userRole.equals("ROLE_ADMIN")){
                     List<User> users = userService.getUsers();
-                    emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
+
                     return new ResponseEntity<>(users, HttpStatus.OK);
 
             }else {
@@ -234,6 +234,7 @@ public class UserRestController {
                         ((User) authentication.getPrincipal()).setEmail(the_user.getEmail());
                     }
                 }
+                emailService.sendEmail(the_user.getEmail(),"Your profile has been updated successfully","Dear, "+the_user.getFull_name()+" your declaration has been updated successfully!");
                 return ResponseEntity.ok(new MessageResponse("User has been saved successfully!"));
 
             }catch (Exception e) {
@@ -275,6 +276,7 @@ public class UserRestController {
             requestForRole.setRole(role);
 
             requestForRoleService.saveRequest(requestForRole, user_id);
+            emailService.sendEmail(user.getEmail(),"New role request","Dear, "+user.getFull_name()+" your request has been sent! Request status: "+ requestForRole.getStatus());
             return ResponseEntity.ok(new MessageResponse("Request for user has been saved successfully!"));
 
         }else {
