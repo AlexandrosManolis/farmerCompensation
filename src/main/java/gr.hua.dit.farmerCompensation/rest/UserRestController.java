@@ -66,7 +66,7 @@ public class UserRestController {
     @GetMapping("")
     public ResponseEntity<?> showUser(){
 
-        //emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
+        emailService.sendEmail("user@example.com","Edit profile","Your declaration has been updated successfully!");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userRole = userService.getUserRole();
