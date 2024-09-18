@@ -97,19 +97,28 @@ pipeline {
                     kubectl apply -f k8s/postgres/postgres-deployment.yaml
                     kubectl apply -f k8s/postgres/postgres-svc.yaml
 
+                    #kubectl apply -f k8s/mailhog/mailhog-deployment.yaml
+                    #kubectl apply -f k8s/mailhog/mailhog-ingress.yaml
+                    #kubectl apply -f k8s/mailhog/mailhog-ingress-tls.yaml
+                    #kubectl apply -f k8s/mailhog/mailhog-svc.yaml
+
                     kubectl apply -f k8s/spring/spring-deployment.yaml
+                    #kubectl apply -f k8s/spring/spring-ingress.yaml
                     kubectl apply -f k8s/spring/spring-ingress-tls.yaml
                     kubectl apply -f k8s/spring/spring-svc.yaml
                     
                     kubectl apply -f k8s/vue/vue-deployment.yaml
+                    #kubectl apply -f k8s/vue/vue-ingress.yaml
                     kubectl apply -f k8s/vue/vue-ingress-tls.yaml
                     kubectl apply -f k8s/vue/vue-svc.yaml
 
-                    #kubectl set image deployment/postgres-deployment postgres=$DOCKER_PREFIX:$TAG
+                    #kubectl set image deployment/postgres-deployment postgres=postgres:$TAG
+                    #kubectl set image deployment/mailhog-deployment mailhog=$mailhog:$TAG
                     kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX_BACKEND:$TAG
                     #kubectl set image deployment/vue-deployment vue=$DOCKER_PREFIX_FRONTEND:$TAG
                     
                     #kubectl rollout status deployment/postgres-deployment --watch --timeout=2m
+                    #kubectl rollout status deployment/mailhog-deployment --watch --timeout=2m
                     #kubectl rollout status deployment/spring-deployment --watch --timeout=2m
                     #kubectl rollout status deployment/vue-deployment --watch --timeout=2m
                 '''
