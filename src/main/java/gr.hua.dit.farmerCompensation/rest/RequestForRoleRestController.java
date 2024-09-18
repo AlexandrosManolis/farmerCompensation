@@ -8,6 +8,7 @@ import gr.hua.dit.farmerCompensation.payload.response.MessageResponse;
 import gr.hua.dit.farmerCompensation.repository.RequestForRoleRepository;
 import gr.hua.dit.farmerCompensation.repository.RoleRepository;
 import gr.hua.dit.farmerCompensation.repository.UserRepository;
+import gr.hua.dit.farmerCompensation.service.EmailService;
 import gr.hua.dit.farmerCompensation.service.RequestForRoleService;
 import gr.hua.dit.farmerCompensation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class RequestForRoleRestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
 
     //delete role from a user inspector
     @GetMapping("role/delete/{user_id}/{role_id}")
