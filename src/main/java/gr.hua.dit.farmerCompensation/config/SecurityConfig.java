@@ -40,12 +40,13 @@ public class SecurityConfig{
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedHeaders(
                 List.of("Authorization", "Cache-Control", "Content-Type"));
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173"));
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:9000"));
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:1025"));
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:8025"));
-        corsConfiguration.setAllowedOrigins(List.of("https://farmercompensation.ddns.net"));
-                .setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
+        corsConfiguration.setAllowedOrigins(List.of(
+        "http://localhost:5173",
+        "http://localhost:9000",
+        "http://localhost:1025",
+        "http://localhost:8025",
+        "https://farmercompensation.ddns.net"));
+                .setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
