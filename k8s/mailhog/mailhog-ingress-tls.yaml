@@ -14,22 +14,22 @@ spec:
     http:
       paths:
       - path: /
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
             name: mailhog-svc
             port:
-              number: 8025
+              name: mailhog
   - host: "our-host.ddns.net"
     http:
       paths:
       - path: /
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
             name: mailhog-svc
             port:
-              number: 8025
+              name: mailhog
   tls:
   - hosts:
     - farmercompensation.ddns.net
