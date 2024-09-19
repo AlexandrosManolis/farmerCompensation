@@ -44,7 +44,7 @@ public class SecurityConfig{
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:9000"));
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:1025"));
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:8025"));
-        corsConfiguration
+        corsConfiguration.setAllowedOrigins(List.of("https://farmercompensation.ddns.net"));
                 .setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setExposedHeaders(List.of("Authorization"));
