@@ -59,7 +59,7 @@ public class RequestForRoleRestController {
             user.getRoles().remove(role);
             System.out.println("Roles: "+user.getRoles());
             userService.updateUser(user);
-            emailService.sendEmail(user.getEmail(),"Role removed","Dear, "+user.getFull_name()+" your role "+ role.getName() +" has been removed! For further information, please contact us.");
+            emailService.sendEmail(user.getEmail(),"Role removed","Dear "+user.getFull_name()+",\n your role "+ role.getName() +" has been removed!\n For further information, please contact us.");
             return ResponseEntity.ok(new MessageResponse("Role deleted successfully!"));
         }else {
             return ResponseEntity.badRequest().body(new MessageResponse("Delete was not accepted"));
@@ -100,7 +100,7 @@ public class RequestForRoleRestController {
         //delete the request
         requestForRoleService.deleteRequest(request_id);
 
-        emailService.sendEmail(user.getEmail(),"Role request approved","Dear, "+user.getFull_name()+" your role request "+ role.getName() +" has been approved!");
+        emailService.sendEmail(user.getEmail(),"Role request approved","Dear "+user.getFull_name()+",\n your role request "+ role.getName() +" has been approved!");
         return new ResponseEntity<>("user's role request approved!",HttpStatus.OK);
         }else {
             return new ResponseEntity<>("role not found!", HttpStatus.NOT_FOUND);
@@ -119,7 +119,7 @@ public class RequestForRoleRestController {
 
         requestForRoleService.saveRequest(request, user_id);
         requestForRoleService.deleteRequest(request_id);
-        emailService.sendEmail(user.getEmail(),"Role request rejected","Dear, "+user.getFull_name()+" your role request has been rejected! For further information, please contact us.");
+        emailService.sendEmail(user.getEmail(),"Role request rejected","Dear "+user.getFull_name()+",\n your role request has been rejected!\n For further information, please contact us.");
         return new ResponseEntity<>("user's role request rejected!", HttpStatus.OK);
 
     }

@@ -5,6 +5,7 @@ import gr.hua.dit.farmerCompensation.dao.UserDAO;
 import gr.hua.dit.farmerCompensation.entity.DeclarationForm;
 import gr.hua.dit.farmerCompensation.entity.User;
 import gr.hua.dit.farmerCompensation.service.DeclarationService;
+import gr.hua.dit.farmerCompensation.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class ReportsRestController {
 
     @Autowired
     private DeclarationService declarationService;
+
+    @Autowired
+    private EmailService emailService;
 
     //get declaration reports if exists
     @GetMapping("{declaration_id}")
@@ -76,6 +80,7 @@ public class ReportsRestController {
             declarationForm.setStatus("Check on site");
             declarationForm.setAppointementDate(getRandomDateWithinNextMonth());
             declarationService.saveDeclaration(declarationForm,user_id);
+            //Thelei mail edw?
             return ResponseEntity.ok(Map.of("message", "Status changed to Check on site!"));
         }
     }
@@ -84,11 +89,11 @@ public class ReportsRestController {
     @GetMapping("acceptReport/{declaration_id}")
     public ResponseEntity<?> AcceptReport(@PathVariable int user_id, @PathVariable int declaration_id, @RequestParam String amount, @RequestBody DeclarationForm declarationForm){
         DeclarationForm acceptedDeclarationForm = declarationDAO.getDeclaration(declaration_id);
+        User user = userDAO.getUserProfile(user_id);
+
         acceptedDeclarationForm.setStatus("Accepted");
         acceptedDeclarationForm.setAmount(declarationForm.getAmount());
-
         declarationService.updateDeclaration(acceptedDeclarationForm);
-
 
         return ResponseEntity.ok("Declaration set to accepted!");
     }
@@ -101,8 +106,9 @@ public class ReportsRestController {
 
         declarationForm.setStatus("Accepted");
         declarationForm.setAmount(amount);
-
         declarationService.saveDeclaration(declarationForm,user_id);
+        emailService.sendEmail(user.getEmail(),"Declaration request accepted","Dear "+user.getFull_name()+",\n your declaration request has been accepted!\n For further information, please contact us.");
+
         return new ResponseEntity<>(declarationForm,HttpStatus.OK);
     }
 
@@ -138,6 +144,7 @@ public class ReportsRestController {
         declarationForm.setRejectCause(rejectCause);
 
         declarationService.saveDeclaration(declarationForm,user_id);
+        emailService.sendEmail(user.getEmail(),"Declaration request rejected","Dear "+user.getFull_name()+",\n your declaration request has been rejected!\n For further information, please contact us.");
         return new ResponseEntity<>(declarationForm,HttpStatus.OK);
     }
 

@@ -8,6 +8,7 @@ import gr.hua.dit.farmerCompensation.entity.User;
 import gr.hua.dit.farmerCompensation.payload.response.MessageResponse;
 import gr.hua.dit.farmerCompensation.repository.DeclarationRepository;
 import gr.hua.dit.farmerCompensation.service.DeclarationService;
+import gr.hua.dit.farmerCompensation.service.EmailService;
 import gr.hua.dit.farmerCompensation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,9 @@ public class DeclarationRestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
 
     //show all the declarations of a user
     @GetMapping("")
@@ -151,6 +155,7 @@ public class DeclarationRestController {
 
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
+        User user = userDAO.getUserProfile(user_id);
 
         //Accordingly with the role user has create a new declaration filling in all the fields and set status to pending
         if(userRole.equals("ROLE_ADMIN")){
@@ -168,6 +173,7 @@ public class DeclarationRestController {
             newDeclarationForm.setSubmissionDate(getCurrentDate());
 
             declarationService.saveDeclaration(newDeclarationForm,user_id);
+            emailService.sendEmail(user.getEmail(),"Declaration created","Dear "+user.getFull_name()+",\n your declaration has been created successfully!\n For further information, please contact us.");
             return new ResponseEntity<>(newDeclarationForm,HttpStatus.OK);
         } else if(user_id == userId) {
 
@@ -185,6 +191,7 @@ public class DeclarationRestController {
             newDeclarationForm.setSubmissionDate(getCurrentDate());
 
             declarationService.saveDeclaration(newDeclarationForm,user_id);
+            emailService.sendEmail(user.getEmail(),"Declaration created","Dear "+user.getFull_name()+",\n your declaration has been created successfully!\n For further information, please contact us.");
             return new ResponseEntity<>(newDeclarationForm,HttpStatus.OK);
         }else{
             return ResponseEntity.badRequest().body("You can't save the declaration!");
@@ -216,6 +223,7 @@ public class DeclarationRestController {
 
         String username = authentication.getName();
         Integer userId= userDAO.getUserId(username);
+        User user = userDAO.getUserProfile(user_id);
 
         //get the declaration and if the condition is true excecute delete of the declaration
         DeclarationForm declarationForm= declarationDAO.getDeclaration(declaration_id);
@@ -223,9 +231,11 @@ public class DeclarationRestController {
             return new ResponseEntity<>("declaration does not exist", HttpStatus.NOT_FOUND);
         }else if(userRole.equals("ROLE_ADMIN")){
             declarationService.deleteDeclaration(declaration_id);
+            //emailService.sendEmail(user.getEmail(),"Declaration deleted","Dear "+user.getFull_name()+",\n your declaration has been deleted!\n For further information, please contact us.");
             return new ResponseEntity<>("declaration deleted!",HttpStatus.OK);
         }else if(userId==user_id){
             declarationService.deleteDeclaration(declaration_id);
+            //emailService.sendEmail(user.getEmail(),"Declaration deleted","Dear "+user.getFull_name()+",\n your declaration has been deleted!\n For further information, please contact us.");
             return new ResponseEntity<>("declaration deleted!",HttpStatus.OK);
         }else{
             return ResponseEntity.badRequest().body("you cant delete the declaration");
@@ -288,6 +298,7 @@ public class DeclarationRestController {
 
 
             declarationService.saveDeclaration(updatedDeclaration,user_id);
+            //emailService.sendEmail(user.getEmail(),"Declaration updated","Dear "+user.getFull_name()+",\n your declaration has been updated!\n For further information, please contact us.");
             return ResponseEntity.ok(new MessageResponse("Declaration has been saved successfully!"));
 
         } else if(user_id == userId) {
@@ -304,6 +315,7 @@ public class DeclarationRestController {
 
 
             declarationService.saveDeclaration(updatedDeclaration,user_id);
+            //emailService.sendEmail(user.getEmail(),"Declaration updated","Dear "+user.getFull_name()+",\n your declaration has been updated!\n For further information, please contact us.");
             return ResponseEntity.ok(new MessageResponse("Declaration has been saved successfully!"));
 
         }else{
