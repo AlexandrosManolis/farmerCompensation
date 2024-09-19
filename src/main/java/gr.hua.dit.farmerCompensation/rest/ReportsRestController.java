@@ -80,7 +80,8 @@ public class ReportsRestController {
             declarationForm.setStatus("Check on site");
             declarationForm.setAppointementDate(getRandomDateWithinNextMonth());
             declarationService.saveDeclaration(declarationForm,user_id);
-            //Thelei mail edw?
+            
+            emailService.sendEmail(user.getEmail(),"The status of declaration request has changed","Dear "+user.getFull_name()+",\n The status of your declaration request has been changed to Check on site!\n For further information, please contact us.");
             return ResponseEntity.ok(Map.of("message", "Status changed to Check on site!"));
         }
     }
