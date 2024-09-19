@@ -6,10 +6,12 @@ metadata:
   name: mailhog
 spec:
   ports:
-    - port: 1025 # SMTP port
+    - name: smtp 
+      port: 1025 # SMTP port
       protocol: TCP
       targetPort: 1025
-    - port: 8025 # HTTP UI port
+    - name: http ui 
+      port: 8025 # HTTP UI port
       protocol: TCP
       targetPort: 8025
   selector: 
