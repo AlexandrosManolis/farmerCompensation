@@ -15,7 +15,7 @@ spec:
       port: 8025 # HTTP UI port
       protocol: TCP
       targetPort: 8025
-      nodePort: 30025
+      nodePort: 30085
   selector: 
     app: mailhog
   type: NodePort
