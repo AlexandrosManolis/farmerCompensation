@@ -115,7 +115,7 @@ pipeline {
                     kubectl set image deployment/postgres-deployment postgres=postgres:$TAG
                     kubectl set image deployment/mailhog-deployment mailhog=mailhog:$TAG
                     kubectl set image deployment/spring-deployment spring=$DOCKER_PREFIX_BACKEND:$TAG
-                    kubectl set image deployment/vue-deployment vue=$DOCKER_PREFIX_FRONTEND:$TAG
+                    #kubectl set image deployment/vue-deployment vue=$DOCKER_PREFIX_FRONTEND:$TAG
                     
                     #kubectl rollout status deployment/postgres-deployment --watch --timeout=2m
                     #kubectl rollout status deployment/mailhog-deployment --watch --timeout=2m

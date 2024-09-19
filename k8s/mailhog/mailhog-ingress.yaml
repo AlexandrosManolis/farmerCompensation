@@ -11,7 +11,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: mailhog
+            name: mailhog-svc
             port:
               name: mailhog
   - host: "our-host.ddns.net"
@@ -21,6 +21,6 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: mailhog
+            name: mailhog-svc
             port:
               name: mailhog
