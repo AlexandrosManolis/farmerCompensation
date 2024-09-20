@@ -19,7 +19,7 @@ spec:
           service:
             name: mailhog-svc
             port:
-              name: mailhog
+              number: 8025
   - host: "our-host.ddns.net"
     http:
       paths:
@@ -29,7 +29,7 @@ spec:
           service:
             name: mailhog-svc
             port:
-              name: mailhog
+              number: 8025
   tls:
   - hosts:
     - farmercompensation.ddns.net
