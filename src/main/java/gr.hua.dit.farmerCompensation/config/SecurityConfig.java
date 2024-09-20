@@ -46,7 +46,7 @@ public class SecurityConfig{
         "http://localhost:1025",
         "http://localhost:8025",
         "https://farmercompensation.ddns.net"));
-                .setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
