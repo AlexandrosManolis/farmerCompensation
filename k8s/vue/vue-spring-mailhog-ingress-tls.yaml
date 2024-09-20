@@ -24,7 +24,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: spring-svc
+            name: spring
             port:
               name: spring
       - path: /mailhog
