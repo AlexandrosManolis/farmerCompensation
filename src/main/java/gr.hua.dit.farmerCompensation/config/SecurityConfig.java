@@ -45,6 +45,7 @@ public class SecurityConfig{
         "http://localhost:9000",
         "http://localhost:1025",
         "http://localhost:8025",
+        "http://localhost:9090",
         "https://farmercompensation.ddns.net"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         corsConfiguration.setAllowCredentials(true);
