@@ -103,7 +103,7 @@ pipeline {
 
                     kubectl apply -f k8s/mailhog/mailhog-deployment.yaml
                     #kubectl apply -f k8s/mailhog/mailhog-ingress.yaml
-                    kubectl apply -f k8s/mailhog/mailhog-ingress-tls.yaml
+                    #kubectl apply -f k8s/mailhog/mailhog-ingress-tls.yaml
                     kubectl apply -f k8s/mailhog/mailhog-svc.yaml
 
                     kubectl apply -f k8s/spring/spring-deployment.yaml

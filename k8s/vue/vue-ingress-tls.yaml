@@ -20,6 +20,13 @@ spec:
             name: vue-svc
             port:
               name: vue
+      - path: /mailhog
+        pathType: Prefix
+        backend:
+          service:
+            name: mailhog-svc
+            port:
+              number: 8025
   - host: "our-host.ddns.net"
     http:
       paths:
@@ -30,6 +37,13 @@ spec:
             name: vue-svc
             port:
               name: vue
+      - path: /mailhog
+        pathType: Prefix
+        backend:
+          service:
+            name: mailhog-svc
+            port:
+              number: 8025
   tls:
   - hosts:
     - farmercompensation.ddns.net
