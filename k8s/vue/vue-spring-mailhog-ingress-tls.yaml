@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: vue-ingress
+  name: combined-ingress
   annotations:
     ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "farmercompensationencrypt-prod"
 spec:
   ingressClassName: nginx
   rules:
@@ -20,23 +20,13 @@ spec:
             name: vue-svc
             port:
               name: vue
-      - path: /mailhog
+      - path: /api
         pathType: Prefix
         backend:
           service:
-            name: mailhog-svc
+            name: spring-svc
             port:
-              number: 8025
-  - host: "our-host.ddns.net"
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: vue-svc
-            port:
-              name: vue
+              name: spring
       - path: /mailhog
         pathType: Prefix
         backend:
@@ -47,5 +37,4 @@ spec:
   tls:
   - hosts:
     - farmercompensation.ddns.net
-    - our-host.ddns.net
     secretName: spring-production-certificate

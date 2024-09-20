@@ -102,18 +102,13 @@ pipeline {
                     kubectl apply -f k8s/postgres/postgres-svc.yaml
 
                     kubectl apply -f k8s/mailhog/mailhog-deployment.yaml
-                    #kubectl apply -f k8s/mailhog/mailhog-ingress.yaml
-                    #kubectl apply -f k8s/mailhog/mailhog-ingress-tls.yaml
                     kubectl apply -f k8s/mailhog/mailhog-svc.yaml
 
                     kubectl apply -f k8s/spring/spring-deployment.yaml
-                    #kubectl apply -f k8s/spring/spring-ingress.yaml
-                    kubectl apply -f k8s/spring/spring-ingress-tls.yaml
                     kubectl apply -f k8s/spring/spring-svc.yaml
                     
                     kubectl apply -f k8s/vue/vue-deployment.yaml
-                    #kubectl apply -f k8s/vue/vue-ingress.yaml
-                    kubectl apply -f k8s/vue/vue-ingress-tls.yaml
+                    kubectl apply -f k8s/vue/vue-spring-mailhog-ingress-tls.yaml
                     kubectl apply -f k8s/vue/vue-svc.yaml
 
                     #kubectl set image deployment/postgres-deployment postgres=postgres:$TAG
