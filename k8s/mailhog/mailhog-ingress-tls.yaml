@@ -14,7 +14,7 @@ spec:
     http:
       paths:
       - path: /mailhog
-        pathType: ImplementationSpecific
+        pathType: Prefix
         backend:
           service:
             name: mailhog-svc
@@ -24,7 +24,7 @@ spec:
     http:
       paths:
       - path: /mailhog
-        pathType: ImplementationSpecific
+        pathType: Prefix
         backend:
           service:
             name: mailhog-svc
