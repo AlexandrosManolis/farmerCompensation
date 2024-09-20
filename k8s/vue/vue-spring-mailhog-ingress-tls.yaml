@@ -34,7 +34,32 @@ spec:
             name: mailhog-svc
             port:
               number: 8025
+  - host: "our-host.ddns.net"
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: vue-svc
+            port:
+              name: vue
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: spring
+            port:
+              name: spring
+      - path: /mailhog
+        pathType: Prefix
+        backend:
+          service:
+            name: mailhog-svc
+            port:
+              number: 8025
   tls:
   - hosts:
     - farmercompensation.ddns.net
+    - our-host.ddns.net
     secretName: spring-production-certificate
