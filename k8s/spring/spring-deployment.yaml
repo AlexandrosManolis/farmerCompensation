@@ -47,6 +47,8 @@ spec:
           value: dbuser
         - name: SPRING_DATASOURCE_PASSWORD
           value: pass123
+        - name: SPRING_MAIL_HOST
+          value: "mailhog-svc"
         ports:
         - containerPort:  9090
           name:  spring
