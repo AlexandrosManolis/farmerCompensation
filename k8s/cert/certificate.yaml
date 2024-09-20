@@ -1,0 +1,24 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: spring-production-certificate
+  namespace: default
+spec:
+  secretName: spring-production-certificate
+  issuerRef:
+    name: farmercompensationencrypt-prod
+    kind: ClusterIssuer
+  commonName: farmercompensation.ddns.net
+  dnsNames:
+    - farmercompensation.ddns.net
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  secretTemplate:
+    annotations:
+      description: "SSL Certificate for Farmer Compensation"
+

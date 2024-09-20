@@ -86,11 +86,15 @@ pipeline {
                     # kubectl config use-context devops
                     
 
-                    # Install cert-manager
+                    # Install cert-manager and wait for it to be ready
                     kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
+                    kubectl wait --for=condition=available --timeout=2m -n cert-manager deployment/cert-manager
 
                     # Apply the cert-issuer configuration
                     kubectl apply -f k8s/cert/cert-issuer.yaml
+
+                    # Apply the certificate for spring production
+                    kubectl apply -f k8s/cert/certificate.yaml
 
                     
                     kubectl apply -f k8s/postgres/postgres-pvc.yaml
