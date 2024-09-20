@@ -13,7 +13,7 @@ spec:
   - host: "farmercompensation.ddns.net"
     http:
       paths:
-      - path: /
+      - path: /mailhog
         pathType: ImplementationSpecific
         backend:
           service:
@@ -23,7 +23,7 @@ spec:
   - host: "our-host.ddns.net"
     http:
       paths:
-      - path: /
+      - path: /mailhog
         pathType: ImplementationSpecific
         backend:
           service:
