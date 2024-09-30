@@ -276,7 +276,7 @@ public class UserRestController {
             requestForRole.setRole(role);
 
             requestForRoleService.saveRequest(requestForRole, user_id);
-            emailService.sendEmail(user.getEmail(),"New role request","Dear "+user.getFull_name()+",\n your request has been sent! Request status: "+ requestForRole.getStatus());
+            emailService.sendEmail(user.getEmail(),"New role request","Dear "+user.getFull_name()+",\nYour request has been sent! Request status: "+ requestForRole.getStatus());
             return ResponseEntity.ok(new MessageResponse("Request for user has been saved successfully!"));
 
         }else {

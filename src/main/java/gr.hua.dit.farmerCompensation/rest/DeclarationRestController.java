@@ -173,7 +173,7 @@ public class DeclarationRestController {
             newDeclarationForm.setSubmissionDate(getCurrentDate());
 
             declarationService.saveDeclaration(newDeclarationForm,user_id);
-            emailService.sendEmail(user.getEmail(),"Declaration created","Dear "+user.getFull_name()+",\n your declaration has been created successfully!\n For further information, please contact us.");
+            emailService.sendEmail(user.getEmail(),"Declaration created","Dear "+user.getFull_name()+",\nYour declaration has been created successfully!\nFor further information, please contact us.");
             return new ResponseEntity<>(newDeclarationForm,HttpStatus.OK);
         } else if(user_id == userId) {
 
@@ -191,7 +191,7 @@ public class DeclarationRestController {
             newDeclarationForm.setSubmissionDate(getCurrentDate());
 
             declarationService.saveDeclaration(newDeclarationForm,user_id);
-            emailService.sendEmail(user.getEmail(),"Declaration created","Dear "+user.getFull_name()+",\n your declaration has been created successfully!\n For further information, please contact us.");
+            emailService.sendEmail(user.getEmail(),"Declaration created","Dear "+user.getFull_name()+",\nYour declaration has been created successfully!\nFor further information, please contact us.");
             return new ResponseEntity<>(newDeclarationForm,HttpStatus.OK);
         }else{
             return ResponseEntity.badRequest().body("You can't save the declaration!");
@@ -231,11 +231,11 @@ public class DeclarationRestController {
             return new ResponseEntity<>("declaration does not exist", HttpStatus.NOT_FOUND);
         }else if(userRole.equals("ROLE_ADMIN")){
             declarationService.deleteDeclaration(declaration_id);
-            emailService.sendEmail(user.getEmail(),"Declaration deleted","Dear "+user.getFull_name()+",\n your declaration has been deleted!\n For further information, please contact us.");
+            emailService.sendEmail(user.getEmail(),"Declaration deleted","Dear "+user.getFull_name()+",\nYour declaration has been deleted!\nFor further information, please contact us.");
             return new ResponseEntity<>("declaration deleted!",HttpStatus.OK);
         }else if(userId==user_id){
             declarationService.deleteDeclaration(declaration_id);
-            emailService.sendEmail(user.getEmail(),"Declaration deleted","Dear "+user.getFull_name()+",\n your declaration has been deleted!\n For further information, please contact us.");
+            emailService.sendEmail(user.getEmail(),"Declaration deleted","Dear "+user.getFull_name()+",\nYour declaration has been deleted!\nFor further information, please contact us.");
             return new ResponseEntity<>("declaration deleted!",HttpStatus.OK);
         }else{
             return ResponseEntity.badRequest().body("you cant delete the declaration");
@@ -298,7 +298,7 @@ public class DeclarationRestController {
 
 
             declarationService.saveDeclaration(updatedDeclaration,user_id);
-            emailService.sendEmail(user.getEmail(),"Declaration updated","Dear "+user.getFull_name()+",\n your declaration has been updated!\n For further information, please contact us.");
+            emailService.sendEmail(user.getEmail(),"Declaration updated","Dear "+user.getFull_name()+",\nYour declaration has been updated!\nFor further information, please contact us.");
             return ResponseEntity.ok(new MessageResponse("Declaration has been saved successfully!"));
 
         } else if(user_id == userId) {
@@ -315,7 +315,7 @@ public class DeclarationRestController {
 
 
             declarationService.saveDeclaration(updatedDeclaration,user_id);
-            emailService.sendEmail(user.getEmail(),"Declaration updated","Dear "+user.getFull_name()+",\n your declaration has been updated!\n For further information, please contact us.");
+            emailService.sendEmail(user.getEmail(),"Declaration updated","Dear "+user.getFull_name()+",\nYour declaration has been updated!\nFor further information, please contact us.");
             return ResponseEntity.ok(new MessageResponse("Declaration has been saved successfully!"));
 
         }else{

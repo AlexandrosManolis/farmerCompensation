@@ -81,7 +81,7 @@ public class ReportsRestController {
             declarationForm.setAppointementDate(getRandomDateWithinNextMonth());
             declarationService.saveDeclaration(declarationForm,user_id);
             
-            emailService.sendEmail(user.getEmail(),"The status of declaration request has changed","Dear "+user.getFull_name()+",\n The status of your declaration request has been changed to Check on site!\n For further information, please contact us.");
+            emailService.sendEmail(user.getEmail(),"The status of declaration request has changed","Dear "+user.getFull_name()+",\nThe status of your declaration request has been changed to Check on site!\nFor further information, please contact us.");
             return ResponseEntity.ok(Map.of("message", "Status changed to Check on site!"));
         }
     }
@@ -108,7 +108,7 @@ public class ReportsRestController {
         declarationForm.setStatus("Accepted");
         declarationForm.setAmount(amount);
         declarationService.saveDeclaration(declarationForm,user_id);
-        emailService.sendEmail(user.getEmail(),"Declaration request accepted","Dear "+user.getFull_name()+",\n your declaration request has been accepted!\n For further information, please contact us.");
+        emailService.sendEmail(user.getEmail(),"Declaration request accepted","Dear "+user.getFull_name()+",\nYour declaration request has been accepted!\nFor further information, please contact us.");
 
         return new ResponseEntity<>(declarationForm,HttpStatus.OK);
     }
@@ -145,7 +145,7 @@ public class ReportsRestController {
         declarationForm.setRejectCause(rejectCause);
 
         declarationService.saveDeclaration(declarationForm,user_id);
-        emailService.sendEmail(user.getEmail(),"Declaration request rejected","Dear "+user.getFull_name()+",\n your declaration request has been rejected!\n For further information, please contact us.");
+        emailService.sendEmail(user.getEmail(),"Declaration request rejected","Dear "+user.getFull_name()+",\nYour declaration request has been rejected!\nFor further information, please contact us.");
         return new ResponseEntity<>(declarationForm,HttpStatus.OK);
     }
 
