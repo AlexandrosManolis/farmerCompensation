@@ -234,7 +234,7 @@ public class UserRestController {
                         ((User) authentication.getPrincipal()).setEmail(the_user.getEmail());
                     }
                 }
-                emailService.sendEmail(the_user.getEmail(),"Profile updated","Dear "+the_user.getFull_name()+",\n your declaration has been updated successfully!");
+                emailService.sendEmail(the_user.getEmail(),"Profile updated","Dear "+the_user.getFull_name()+",\nYour profile has been updated successfully!");
                 return ResponseEntity.ok(new MessageResponse("User has been saved successfully!"));
 
             }catch (Exception e) {
